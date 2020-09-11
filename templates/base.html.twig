@@ -5,8 +5,15 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
     </head>
+    {% block header %}
+        {% include "component/header.html.twig" %}
+    {% endblock %}
+
     <body>
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>
+    {% block footer %}
+        {% include "component/footer.html.twig" %}
+    {% endblock %}
 </html>
