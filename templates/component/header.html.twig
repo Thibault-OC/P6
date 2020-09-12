@@ -1,6 +1,16 @@
 <header>
-    mon header
-    {% block menu %}
-        {% include "component/menu.html.twig" %}
-    {% endblock %}
+
+    <div class="container_fluid">
+        <div class="row">
+            <div class="col-md-4">
+                logo
+            </div>
+            <div class="col-md-4 text-right">
+                {% block menu %}
+                    {% include "component/menu.html.twig" %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
 </header>

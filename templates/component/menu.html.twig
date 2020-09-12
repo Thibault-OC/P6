@@ -6,15 +6,15 @@
     </li>
     {% if not app.user %}
     <li class="nav-item">
-        <a class="nav-link" href="http://51.75.126.51/P6/public/index.php/login">connexion</a>
+        <a class="nav-link" href="{{ path('app_login') }}">connexion</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="http://51.75.126.51/P6/public/index.php/register">inscription</a>
+        <a class="nav-link" href="{{ path('app_register') }}">inscription</a>
     </li
     {% else %}
 
     <li class="nav-item">
-        <a class="nav-link" href="http://51.75.126.51/P6/public/index.php/logout">deconexion</a>
+        <a class="nav-link" href="{{ path('app_logout') }}">deconexion</a>
     </li>
     {% endif %}
 
