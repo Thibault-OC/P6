@@ -4,11 +4,11 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
-        <link rel="stylesheet" href="../../assets/css/app.css">
+        <link rel="stylesheet" href="{{asset('assets/css/app.css')}}">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     </head>
     {% block header %}
-        {% include "component/header.html.twig" %}
+        {% include "layout/header.html.twig" %}
     {% endblock %}
 
     <body>
@@ -16,6 +16,6 @@
         {% block javascripts %}{% endblock %}
     </body>
     {% block footer %}
-        {% include "component/footer.html.twig" %}
+        {% include "layout/footer.html.twig" %}
     {% endblock %}
 </html>
