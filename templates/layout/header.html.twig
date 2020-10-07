@@ -1,11 +1,11 @@
 <header>
 
-    <div class="container_fluid">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
-                logo
+                <img  class="logo" src="{{ asset('img/snow.jpg') }}" alt="logo">
             </div>
-            <div class="col-md-4 text-right">
+            <div class="col-md-8 text-right col-menu">
                 {% block menu %}
                     {% include "layout/menu.html.twig" %}
                 {% endblock %}

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Tricks;
 use App\Entity\Category;
+use App\Entity\Video;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 
 class TricksType extends AbstractType
@@ -21,6 +23,23 @@ class TricksType extends AbstractType
         $builder
             ->add('title')
             ->add('content')
+            /*->add('videos', FileType::class, [
+                'label' => 'Videos',
+                'multiple' => true,
+                'mapped'=> false,
+                'required'=>false,
+                'attr'     => [
+                    'accept' => 'image/*',
+                   
+                ],
+            ])*/
+            
+            ->add('videos', CollectionType::class, array(
+                'entry_type' => VideoType::class,
+                'entry_options' => array('label' => false),
+                'allow_add' => true,
+            ))
+
             ->add('Category', EntityType::class, [
           // looks for choices from this entity
           'class' => Category::class,
@@ -34,6 +53,7 @@ class TricksType extends AbstractType
       ])
         ->add('image', FileType::class, [
         'label' => 'Image',
+
 
         // unmapped means that this field is not associated to any entity property
         'mapped' => false,
@@ -57,8 +77,27 @@ class TricksType extends AbstractType
             ])
         ],
     ])
+
+
         ;
+
     }
+  /*  public function buildFormVideo(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+
+            ->add('video', FileType::class, [
+                'label' => 'Videos',
+                'data_class' => 'App\Entity\Video;',
+                'multiple' => true,
+                'attr'     => [
+                    'accept' => 'image/*',
+                    'multiple' => 'multiple'
+                ],
+            ])
+        ;
+
+    }*/
 
     public function configureOptions(OptionsResolver $resolver)
     {

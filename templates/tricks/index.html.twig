@@ -3,8 +3,13 @@
 {% block title %}Tricks index{% endblock %}
 
 {% block body %}
-    <h1>Tricks index</h1>
-    <div class="container">
+    <div class="img-beandeau">
+        <h1>Tricks index</h1>
+        <a href="#tricks"><i class="fas fa-arrow-down"></i></a>
+    </div>
+
+
+    <div class="container" id ="tricks">
         <div class="row">
 
         {% for trick in tricks %}
