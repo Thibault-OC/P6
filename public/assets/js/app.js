@@ -51,7 +51,10 @@ jQuery(document).ready(function() {
         $newLinkLi.before($newFormLi);
 
         // handle the removal, just for this example
-        $('.remove-tag').click(function(e) {
+        $('.remove-video').click(function(e) {
+
+
+
             e.preventDefault();
 
             $(this).parent().remove();

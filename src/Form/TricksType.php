@@ -38,6 +38,7 @@ class TricksType extends AbstractType
                 'entry_type' => VideoType::class,
                 'entry_options' => array('label' => false),
                 'allow_add' => true,
+                'by_reference' => false,
             ))
 
             ->add('Category', EntityType::class, [

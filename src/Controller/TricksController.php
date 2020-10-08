@@ -49,11 +49,15 @@ class TricksController extends AbstractController
              * @var UploadedFile $videos
              */
 
-            //$videos = $form->get('videos')->getData();
+            $videos = $form->get('videos')->getData();
 
-            $videos = $form->get('videos');
+            //$videos = $form->get('videos');
+
+            //dd($videos);
+
 
             foreach ($videos as $video){
+
 
                 //$filename = $fileUploader->uploadVideos($video);
 
@@ -61,11 +65,13 @@ class TricksController extends AbstractController
 
                 //$trickVideos->setFilename($filename);
 
-                $trickVideos->setFilename($video);
+               //$trick->addVideo($trickVideos);
+
+
+                $trickVideos->setFilename($video->getFilename());
 
                 //$trick->addVideo($trickVideos);
 
-                $trick->addVideo($trickVideos);
 
             }
 

@@ -24,7 +24,7 @@ class Category
     private $name;
 
     /**
-     * @ORM\OneToOne(targetEntity=Tricks::class, mappedBy="category", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=Tricks::class, mappedBy="category", cascade={"persist", "remove"})
      */
     private $category;
 

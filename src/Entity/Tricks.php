@@ -30,7 +30,7 @@ class Tricks
     private $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="category", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="category", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
