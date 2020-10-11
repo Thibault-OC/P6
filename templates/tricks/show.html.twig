@@ -3,37 +3,54 @@
 {% block title %}Tricks{% endblock %}
 
 {% block body %}
-    <h1>Tricks</h1>
+    
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ trick.id }}</td>
-            </tr>
-            <tr> <th>Image</th>
-                <td><img class="card-img-top" src="{{ asset('uploads/images/' ~ trick.image) }}" alt="Card image cap" style="width:200px"></td>
-            </tr>
-
-            <tr>
-                <th>Title</th>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <img class="card-img-top" src="{{ asset('uploads/images/' ~ trick.image) }}" alt="Card image cap" >
                 <td>{{ trick.title }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ trick.content }}</td>
-            </tr>
+            </div>
+            <div class="col-md-12">
+
+                <div class="variable-width">
+                    {% for video in trick.videos %}
+
+                        <div>
+                            <iframe src="{{ video.filename|raw }}?rel=0" allowfullscreen="" frameborder="0"></iframe>
+
+                        </div>
+
+                    {% endfor %}
+
+                    {% for image in trick.images %}
+
+                        <div>
+
+                            <img class="" src="{{ asset('uploads/images/' ~ image.filename) }}" alt="" >
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
 
 
-            {% for video in trick.videos %}
-            <tr>
-                <th>Video</th>
-                <td><img class="card-img-top" src="{{ asset('uploads/images/' ~ video.filename) }}" alt="Card image cap" style="width:200px"></td>
-            </tr>
-            {% endfor %}
+                <p>{{ trick.content }}</p>
+               
+            </div>
+        </div>
 
-        </tbody>
-    </table>
+    </div>
+
+
+
+
+
+
+
+
+
 
     <a href="{{ path('tricks_index') }}">back to list</a>
 

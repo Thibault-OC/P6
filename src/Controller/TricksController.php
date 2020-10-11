@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Tricks;
 use App\Entity\Video;
+use App\Entity\Image;
 use App\Form\TricksType;
 use App\Repository\TricksRepository;
 use App\Service\FileUploader;
@@ -51,26 +52,31 @@ class TricksController extends AbstractController
 
             $videos = $form->get('videos')->getData();
 
-            //$videos = $form->get('videos');
-
-            //dd($videos);
-
-
             foreach ($videos as $video){
-
-
-                //$filename = $fileUploader->uploadVideos($video);
 
                 $trickVideos = new Video();
 
-                //$trickVideos->setFilename($filename);
-
-               //$trick->addVideo($trickVideos);
+                $video->filename = str_replace("watch?v=","embed/", $video->filename );
 
 
                 $trickVideos->setFilename($video->getFilename());
 
-                //$trick->addVideo($trickVideos);
+
+
+            }
+
+            $images= $form->get('images')->getData();
+
+
+            foreach ($images as $image){
+
+                $filename = $fileUploader->upload($image);
+
+                $trickImages = new Image();
+
+                $trickImages->setFilename($filename);
+
+                $trick->addImages($trickImages);
 
 
             }
@@ -122,6 +128,8 @@ class TricksController extends AbstractController
     public function edit(Request $request, Tricks $trick): Response
     {
         $form = $this->createForm(TricksType::class, $trick);
+        
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

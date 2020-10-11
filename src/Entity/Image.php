@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\VideoRepository;
+use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=VideoRepository::class)
+ * @ORM\Entity(repositoryClass=ImageRepository::class)
  */
-class Video
+class Image
 {
     /**
      * @ORM\Id
@@ -20,13 +20,14 @@ class Video
     /**
      * @ORM\Column(type="string", length=255)
      */
-    public $filename;
+    private $filename;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Tricks::class, inversedBy="videos")
+     * @ORM\ManyToOne(targetEntity=Tricks::class, inversedBy="images")
      * @ORM\JoinColumn(nullable=false)
      */
     private $trick;
+
 
     public function getId(): ?int
     {
@@ -56,8 +57,5 @@ class Video
 
         return $this;
     }
-
-
-
 
 }
