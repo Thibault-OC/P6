@@ -3,11 +3,252 @@
 {% block title %}Edit Tricks{% endblock %}
 
 {% block body %}
-    <h1>Edit Tricks</h1>
+    {{ form_start(form ) }}
 
-    {{ include('tricks/_form.html.twig', {'button_label': 'Update'}) }}
+    <div class="bandeau-image trick">
+        <img id="blah" class="card-img-top" src="{{ asset('uploads/images/' ~ trick.image) }}" alt="Card image cap" >
+        <h1 class="titre-trick">{{ trick.title }}</h1>
+        <div class="content-btn">
+            <button type="button" data-toggle="modal" data-target="#modalMiniature"><i class="fas fa-pencil-alt"></i></button>
+        </div>
 
-    <a href="{{ path('tricks_index') }}">back to list</a>
+    </div>
+
+
+    <div class="container-tricks">
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="carousel">
+
+                    <div class="variable-width">
+                        {% for video in trick.videos %}
+
+                            <div id="video_{{video.id}}">
+                                <iframe height="100%" width="100%" src="{{ video.filename|raw }}?rel=0" allowfullscreen="" frameborder="0"></iframe>
+                                <button type="button" class="btn-image" onclick=" confirmationSuppressionVideo({{video.id}})"><i class="fas fa-trash-alt"></i></button>
+
+                            </div>
+
+                        {% endfor %}
+
+                        {% for image in trick.images %}
+
+                            <div id="image_{{image.id}}">
+
+                                <img class="img-fluid" src="{{ asset('uploads/images/' ~ image.filename) }}" alt="" >
+                                <button type="button" class="btn-edit" data-toggle="modal" data-target="#modalImage">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button type="button" class="btn-image"onclick=" confirmationSuppression({{image.id}})"><i class="fas fa-trash-alt"></i></button>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+                    <div class="prev">
+                        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                    </div>
+                    <div class="next">
+                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="container">
+        <div class="row">
+                <div class= " col-md-12">
+                    {{ form_row(form.title , { 'label' : 'Title', 'attr' : { 'class' : 'form-control' }}) }}
+                </div>
+
+                <div class= " col-md-12">
+                    {{ form_row(form.content , { 'label' : 'Content', 'attr' : { 'class' : 'form-control' }}) }}
+                </div>
+
+                <div class= "col-md-12">
+                    {{ form_row(form.Category  , { 'label' : 'Category', 'attr' : { 'class' : 'form-control input-category' }}) }}
+                </div>
+
+                <div class="container_btn col-md-12">
+
+                    <button class="btn btn-lg btn-primary">{{ button_label|default('Update') }}</button>
+
+                    {#{{ include('tricks/_delete_form.html.twig') }}#}
+                </div>
+
+        </div>
+    </div>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalImage" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ form_row(form.images ,{'id': 'Album'  , 'label' : 'Images', 'attr' : { 'class' : 'form-control-file input_images' }} ) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" >Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalMiniature" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ form_row(form.image ,{'id': 'imgInp' , 'label' : 'Image', 'attr' : { 'class' : 'form-control-file' }} ) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" >Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="container">
+        <div class="row">
+
+
+
+            <div class= " col-md-12">
+                {{ form_row(form.videos , {'label' : 'Video'})}}
+
+                <ul class="videos" data-prototype="&lt;div&gt;&lt;label class=&quot; required&quot;&gt;__filename__&lt;/label&gt;&lt;div id=&quot;tricks_videos___filename__&quot;&gt;&lt;div&gt;&lt;label for=&quot;tricks_videos___filename___filename&quot; class=&quot; required&quot;&gt;filename&lt;/label&gt;&lt;input type=&quot;text&quot; id=&quot;tricks_videos___filename___filename&quot; name=&quot;tricks[videos][__filename__][filename]&quot; required=&quot;required&quot; maxlength=&quot;255&quot; /&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;">
+
+                </ul>
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+
+    {{ form_end(form) }}
 
     {{ include('tricks/_delete_form.html.twig') }}
 {% endblock %}
+
+{% block javascripts %}
+
+
+    <script>
+
+        $(document).ready(function(){
+            // Get value on button click and show alert
+            $("#update_btn").click(function(){
+                var arr= $(".input_images").map(function(){
+                    return $(this).val();
+                }).get();
+                console.log(arr)
+            });
+        });
+
+
+
+
+
+        function confirmationSuppression(id){
+            $.confirm({
+                title: "Voulez vous vraiment supprimer l'image ?",
+                content: false,
+                columnClass: 'col-md-6',
+                buttons: {
+                    oui: {
+                        text: "Oui",
+                        btnClass: 'btn-blue',
+                        action: function(){
+
+                            $.ajax({
+
+                                url: "{{ path('tricks_delete_image') }}",
+                                method: 'post',
+                                data: {'id': id},
+                                success: function (id) {
+
+                                    let id_string = JSON.parse(id);
+                                    $("#image_" + id_string).remove();
+
+                                },
+                                error: function () {
+
+                                },
+                            });
+                        }
+                    },
+                    non: {
+                        text: "Non",
+                        btnClass: 'btn-danger',
+                        close: function(){
+                        }
+                    }
+                }
+            });
+        }
+
+        function confirmationSuppressionVideo(id){
+            $.confirm({
+                title: "Voulez vous vraiment supprimer la vidéo ?",
+                content: false,
+                columnClass: 'col-md-6',
+                buttons: {
+                    oui: {
+                        text: "Oui",
+                        btnClass: 'btn-blue',
+                        action: function(){
+
+                            $.ajax({
+
+                                url: "{{ path('tricks_delete_video') }}",
+                                method: 'post',
+                                data: {'id': id},
+                                success: function (id) {
+
+                                    let id_string = JSON.parse(id);
+                                    $("#video_" + id_string).remove();
+
+                                },
+                                error: function () {
+
+                                },
+                            });
+                        }
+                    },
+                    non: {
+                        text: "Non",
+                        btnClass: 'btn-danger',
+                        close: function(){
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+{% endblock %}
+

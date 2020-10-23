@@ -94,14 +94,40 @@ jQuery(document).ready(function($){
 
     $('.variable-width').slick({
         dots: false,
-        infinite: true,
+        infinite: false,
         speed: 300,
         slidesToShow: 1,
         centerMode: true,
-        variableWidth: true
+        variableWidth: false,
+        prevArrow: $('.prev'),
+        nextArrow: $('.next'),
     });
 
 
-    
+
+
+
+    $(document).ready(function () {
+
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+
+        $("#imgInp").change(function(){
+            readURL(this);
+
+        });
+    });
+
 
 });

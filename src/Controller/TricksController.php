@@ -7,13 +7,19 @@ use App\Entity\Video;
 use App\Entity\Image;
 use App\Form\TricksType;
 use App\Repository\TricksRepository;
+use App\Repository\ImageRepository;
+use App\Repository\VideoRepository;
 use App\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 /**
  * @Route("/tricks")
@@ -125,7 +131,7 @@ class TricksController extends AbstractController
     /**
      * @Route("/{id}/edit", name="tricks_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Tricks $trick): Response
+    public function edit(Request $request, Tricks $trick ,  FileUploader $fileUploader): Response
     {
         $form = $this->createForm(TricksType::class, $trick);
         
@@ -133,6 +139,71 @@ class TricksController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $imageFile = $form->get('image')->getData();
+
+
+            if ($imageFile != null){
+
+                $trick->setImage(
+
+
+                    new File($this->getParameter('brochures_directory').'/'.$trick->getImage())
+
+                );
+
+                if ($imageFile) {
+
+
+                    $image= $fileUploader->upload($imageFile);
+
+                    $trick->setImage($image);
+
+                }
+            }
+
+            $images= $form->get('images')->getData();
+
+            if ($images){
+                foreach ($images as $image){
+
+                    $filename = $fileUploader->upload($image);
+
+                    $trickImages = new Image();
+
+                    $trickImages->setFilename($filename);
+
+                    $trick->addImages($trickImages);
+
+
+                }
+            }
+
+
+
+            /**
+             * @var UploadedFile $videos
+             */
+
+            $videos = $form->get('videos')->getData();
+
+
+
+            if($videos != null){
+
+                foreach ($videos as $video){
+
+                    $trickVideos = new Video();
+
+                    $video->filename = str_replace("watch?v=","embed/", $video->filename );
+                    
+                    $trickVideos->setFilename($video->getFilename());
+
+                }
+            }
+
+
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('tricks_index');
@@ -142,6 +213,43 @@ class TricksController extends AbstractController
             'trick' => $trick,
             'form' => $form->createView(),
         ]);
+    }
+
+
+    /**
+     * @Route("/deleteImage", name="tricks_delete_image", methods={"POST"})
+     */
+    public function deleteImage(Request $request , ImageRepository $imagerepository): Response
+    {
+
+        $id = $request->request->get('id');
+        $em = $this->getDoctrine()->getManager();
+        $evenement = $imagerepository->find($id);
+
+        $em->remove($evenement);
+        $em->flush();
+
+
+        return new JsonResponse($id);
+
+    }
+
+    /**
+     * @Route("/deleteVideo", name="tricks_delete_video", methods={"POST"})
+     */
+    public function deleteVideo(Request $request , VideoRepository $videorepository): Response
+    {
+
+        $id = $request->request->get('id');
+        $em = $this->getDoctrine()->getManager();
+        $evenement = $videorepository->find($id);
+
+        $em->remove($evenement);
+        $em->flush();
+
+
+        return new JsonResponse($id);
+
     }
 
     /**
@@ -157,4 +265,25 @@ class TricksController extends AbstractController
 
         return $this->redirectToRoute('tricks_index');
     }
+
+    
+    /**
+     * @Route("/delete", name="tricks_delete_ajax", methods={"POST"})
+     */
+    public function deleteAjax(Request $request , TricksRepository $tricksRepository): Response
+    {
+
+            $id = $request->request->get('id');
+            $em = $this->getDoctrine()->getManager();
+            $evenement = $tricksRepository->find($id);
+
+            $em->remove($evenement);
+            $em->flush();
+
+
+            return new JsonResponse($id);
+
+    }
+
+
 }

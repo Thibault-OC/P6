@@ -1,6 +1,9 @@
 body {
     background-color: lightgray;
 }
+a{
+    text-decoration: none !important;
+}
 
 header , footer{
     background: #f5f3f4;
@@ -29,15 +32,50 @@ header {
 
 .page_login{
     padding: 80px 0;
+    background: linear-gradient(45deg, rgba(66, 183, 245,0.8) 0%,rgba(66, 245, 189,0.4) 100%);
+    height: calc(100vh - 305px);
 }
 
 .page_login form{
     max-width: 500px;
     padding: 20px;
-    border: solid 2px #000;
     margin: 0 auto;
-    text-align: center;
+    background: #FFFFFF;
+    border-radius: 4px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
 }
+.page_login form label{
+    display: block;
+    margin: 0 0 10px;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: .2em;
+}
+
+
+.page_login form .btn{
+    background: #4285F4;
+    width: 100%;
+    border: 0;
+    border-radius: 4px;
+    padding: 12px 20px;
+}
+.page_login form h1{
+    padding: 4px 0;
+    color: #4285F4;
+    font-size: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: left;
+}
+.form-header {
+    margin: 0 0 40px;
+}
+
+
 .page_login form a {
     display: block;
     margin-bottom: 20px;
@@ -85,3 +123,173 @@ footer{
     color: #000;
     font-size: 25px;
 }
+
+ .slick-slide , .slick-slide img{
+    height:200px !important;
+     width: 350px !important;
+}
+
+.slick-slide img{
+    object-fit: cover;
+}
+.img-beandeau{
+    margin-bottom: 40px;
+}
+
+.container-tricks{
+    max-width: 1600px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.container-tricks .card-img-top{
+    height: 180px;
+    object-fit: cover;
+}
+
+.footer_card form{
+    display: inline-block;
+}
+.footer_card{
+    position: absolute;
+    bottom: 20px;
+    right: 0px;
+}
+.card-body {
+    background: #f5f3f4;;
+    padding: 15px !important;
+}
+.container-tricks .card{
+    border: none;
+    box-shadow: 8px 8px 12px 5px rgb(0 0 0 / 8%);
+}
+
+.container-tricks .card .card-title{
+    color: #000;
+    text-transform: capitalize;
+    font-size: 14px;
+    font-weight: 700;
+}
+.ancre-tricks{
+    background: #f5f3f4;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #000;
+    font-size: 25px;
+    height: 50px;
+    width: 50px;
+    transform: rotate(180deg);
+}
+.container-ancre{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.bandeau-image.trick img{
+    height: 700px;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+.bandeau-image.trick{
+    position: relative;
+}
+.content-btn{
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #f5f3f4;
+}
+.content-btn form{
+    display: inline-block;
+}
+.titre-trick{
+    padding: 15px 40px;
+    background: rgba(225, 255, 255, .4);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.carousel{
+    position: relative;
+}
+.carousel .next{
+    position: absolute;
+    right: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 25px;
+}
+.carousel .prev{
+    position: absolute;
+    left: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 25px;
+}
+.carousel{
+    margin: 40px 0;
+}
+
+.carousel .slick-slide{
+    padding: 0 10px;
+    position: relative;
+}
+
+.carousel .slick-slide .btn-image{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.carousel .slick-slide .btn-edit{
+    position: absolute;
+    top: 0;
+    right: 30px;
+}
+
+.form_delete{
+    display: inline-block;
+}
+
+
+
+.container_btn .btn{
+    font-size: 15px;
+    padding: .375rem .75rem;
+    margin-left: 15px;
+
+}
+.container_btn{
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 20px;
+
+}
+.input-category{
+    max-width:200px;
+}
+
+textarea#tricks_content {
+    overflow-y: scroll;
+    height: 100px;
+    resize: none; /* Remove this if you want the user to resize the textarea */
+}
+
+
+@media (min-width: 768px)
+{
+    .col-md-55 {
+        -ms-flex: 0 0 20%;
+        flex: 0 0 20%;
+        max-width: 20%;
+        position: relative;
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+}
+

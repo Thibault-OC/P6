@@ -3,38 +3,53 @@
 {% block title %}Tricks{% endblock %}
 
 {% block body %}
+
+    <div class="bandeau-image trick">
+        <img class="card-img-top" src="{{ asset('uploads/images/' ~ trick.image) }}" alt="Card image cap" >
+        <h1 class="titre-trick">{{ trick.title }}</h1>
+        <div class="content-btn">
+            {{ include('tricks/_delete_form.html.twig') }}
+            <a class="btn" href="{{ path('tricks_edit', {'id': trick.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+        </div>
+    </div>
     
 
-    <div class="container">
+    <div class="container-tricks">
         <div class="row">
+
             <div class="col-md-12">
-                <img class="card-img-top" src="{{ asset('uploads/images/' ~ trick.image) }}" alt="Card image cap" >
-                <td>{{ trick.title }}</td>
-            </div>
-            <div class="col-md-12">
+                <div class="carousel">
 
-                <div class="variable-width">
-                    {% for video in trick.videos %}
+                    <div class="variable-width">
+                        {% for video in trick.videos %}
 
-                        <div>
-                            <iframe src="{{ video.filename|raw }}?rel=0" allowfullscreen="" frameborder="0"></iframe>
+                            <div>
+                                <iframe height="100%" width="100%" src="{{ video.filename|raw }}?rel=0" allowfullscreen="" frameborder="0"></iframe>
 
-                        </div>
+                            </div>
 
-                    {% endfor %}
+                        {% endfor %}
 
-                    {% for image in trick.images %}
+                        {% for image in trick.images %}
 
-                        <div>
+                            <div>
 
-                            <img class="" src="{{ asset('uploads/images/' ~ image.filename) }}" alt="" >
+                                <img class="img-fluid" src="{{ asset('uploads/images/' ~ image.filename) }}" alt="" >
+                               
 
-                        </div>
+                            </div>
 
-                    {% endfor %}
+                        {% endfor %}
+
+                    </div>
+                    <div class="prev">
+                        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                    </div>
+                    <div class="next">
+                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                    </div>
 
                 </div>
-
 
                 <p>{{ trick.content }}</p>
                
@@ -44,17 +59,15 @@
     </div>
 
 
-
-
-
-
-
-
-
-
     <a href="{{ path('tricks_index') }}">back to list</a>
 
-    <a href="{{ path('tricks_edit', {'id': trick.id}) }}">edit</a>
 
-    {{ include('tricks/_delete_form.html.twig') }}
+
+
+
+
+
+
+
+
 {% endblock %}
