@@ -43,6 +43,8 @@ class TricksController extends AbstractController
     {
         $trick = new Tricks();
 
+        $trick->setCreatedAt(new \DateTime());
+
 
         $form = $this->createForm(TricksType::class, $trick);
 
@@ -134,6 +136,8 @@ class TricksController extends AbstractController
     public function edit(Request $request, Tricks $trick ,  FileUploader $fileUploader): Response
     {
         $form = $this->createForm(TricksType::class, $trick);
+
+        $trick->setUpdatedAt(new \DateTime());
         
 
         $form->handleRequest($request);

@@ -50,10 +50,26 @@ class Tricks
      */
     private $images;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick")
+     */
+    private $trick;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created_at;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updated_at;
+
     public function __construct()
     {
         $this->videos = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->trick = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -169,6 +185,61 @@ class Tricks
                 $images->setTrick(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getTrick(): Collection
+    {
+        return $this->trick;
+    }
+
+    public function addTrick(Comment $trick): self
+    {
+        if (!$this->trick->contains($trick)) {
+            $this->trick[] = $trick;
+            $trick->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrick(Comment $trick): self
+    {
+        if ($this->trick->contains($trick)) {
+            $this->trick->removeElement($trick);
+            // set the owning side to null (unless already changed)
+            if ($trick->getTrick() === $this) {
+                $trick->setTrick(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }
