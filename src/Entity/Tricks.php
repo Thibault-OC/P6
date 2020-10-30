@@ -17,7 +17,7 @@ class Tricks
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    public $id;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -242,6 +242,13 @@ class Tricks
         $this->updated_at = $updated_at;
 
         return $this;
+    }
+
+    public function __toString() {
+        if(is_null($this->trick)) {
+            return 'NULL';
+        }
+        return $this->trick;
     }
 
 

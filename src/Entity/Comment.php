@@ -29,11 +29,13 @@ class Comment
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="user", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Tricks::class, inversedBy="trick", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $trick;
 
@@ -89,4 +91,18 @@ class Comment
 
         return $this;
     }
+
+    public function __toString()
+    {
+
+        if(is_null($this->trick)) {
+            return 'NULL';
+
+        }
+        return $this->trick;
+
+
+    }
+
+
 }

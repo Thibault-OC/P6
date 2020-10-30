@@ -5,11 +5,15 @@ namespace App\Controller;
 use App\Entity\Tricks;
 use App\Entity\Video;
 use App\Entity\Image;
+use App\Entity\Comment;
 use App\Form\TricksType;
 use App\Repository\TricksRepository;
 use App\Repository\ImageRepository;
 use App\Repository\VideoRepository;
 use App\Service\FileUploader;
+use App\Form\CommentType;
+use App\Repository\CommentRepository;
+use App\Controller\CommentController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -121,12 +125,38 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="tricks_show", methods={"GET"})
+     * @Route("/{id}", name="tricks_show",  methods={"GET","POST"})
      */
-    public function show(Tricks $trick): Response
+    public function show(Tricks $trick ,CommentRepository $commentRepository, Request $request ): Response
     {
+        $comment = new Comment();
+
+        $form = $this->createForm(CommentType::class, $comment);
+
+        $form->handleRequest($request);
+
+        $comment->setCreatedAt(new \DateTime());
+
+        $user = $this->getUser();
+
+        $comment->setUser($user);
+
+        $trickComment= $comment->setTrick($trick);
+
+        $comment->getTrick($trickComment);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+        }
+
         return $this->render('tricks/show.html.twig', [
+            'comments' => $commentRepository->findAll(),
             'trick' => $trick,
+            'form' => $form->createView()
         ]);
     }
 
