@@ -1,4 +1,6 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <div class="form-comment">
+        {{ form_widget(form) }}
+        <button class="btn btn-secondary">{{ button_label|default('Leave a comment') }}</button>
+    </div>
 {{ form_end(form) }}

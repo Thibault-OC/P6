@@ -100,7 +100,6 @@ jQuery(document).ready(function($){
         speed: 300,
         slidesToShow: 1,
         centerMode: true,
-        variableWidth: false,
         prevArrow: $('.prev'),
         nextArrow: $('.next'),
     });

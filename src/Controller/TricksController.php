@@ -13,7 +13,6 @@ use App\Repository\VideoRepository;
 use App\Service\FileUploader;
 use App\Form\CommentType;
 use App\Repository\CommentRepository;
-use App\Controller\CommentController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,6 +22,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 
 /**
@@ -56,7 +56,14 @@ class TricksController extends AbstractController
         $form->handleRequest($request);
 
 
+
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $content = $form->get('content')->getData();
+
+            $content_form = nl2br( $content );
+
+            $trick->setContent($content_form);
 
             /**
              * @var UploadedFile $videos
@@ -151,10 +158,16 @@ class TricksController extends AbstractController
             $entityManager->persist($comment);
             $entityManager->flush();
 
+            return $this->redirectToRoute('tricks_show', [
+                'id' => $trick->getId(),
+        ]);
         }
 
         return $this->render('tricks/show.html.twig', [
-            'comments' => $commentRepository->findAll(),
+            'comments' => $commentRepository->findBy(
+                ['trick' => $trick],
+                ['created_at' => 'DESC'],
+            ),
             'trick' => $trick,
             'form' => $form->createView()
         ]);
@@ -165,7 +178,11 @@ class TricksController extends AbstractController
      */
     public function edit(Request $request, Tricks $trick ,  FileUploader $fileUploader): Response
     {
+        
+        $trick->content = str_replace("<br />", "", $trick->getContent("content"));
+
         $form = $this->createForm(TricksType::class, $trick);
+
 
         $trick->setUpdatedAt(new \DateTime());
         
@@ -173,6 +190,13 @@ class TricksController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+
+            $content = $form->get('content')->getData();
+
+            $content_form = nl2br( $content );
+
+            $trick->setContent($content_form);
 
             $imageFile = $form->get('image')->getData();
 
@@ -251,7 +275,7 @@ class TricksController extends AbstractController
 
 
     /**
-     * @Route("/deleteImage", name="tricks_delete_image", methods={"POST"})
+     * @Route("/tricks/deleteImage", name="tricks_delete_image", methods={"POST"})
      */
     public function deleteImage(Request $request , ImageRepository $imagerepository): Response
     {
@@ -269,18 +293,19 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/deleteVideo", name="tricks_delete_video", methods={"POST"})
+     * @Route("/tricks/deleteVideo", name="tricks_delete_video", methods={"POST"})
      */
     public function deleteVideo(Request $request , VideoRepository $videorepository): Response
     {
 
         $id = $request->request->get('id');
+
         $em = $this->getDoctrine()->getManager();
         $evenement = $videorepository->find($id);
 
+
         $em->remove($evenement);
         $em->flush();
-
 
         return new JsonResponse($id);
 
@@ -302,7 +327,7 @@ class TricksController extends AbstractController
 
     
     /**
-     * @Route("/delete", name="tricks_delete_ajax", methods={"POST"})
+     * @Route("delete/trick", name="tricks_delete_ajax",  methods={"GET","POST"})
      */
     public function deleteAjax(Request $request , TricksRepository $tricksRepository): Response
     {
@@ -316,6 +341,49 @@ class TricksController extends AbstractController
 
 
             return new JsonResponse($id);
+
+    }
+
+
+    /**
+     * @Route("/tricks/editImage/{id}", name="tricks_edit_images",  methods={"GET","POST"})
+     */
+
+    public function editImage(Request $request ,Tricks $trick ,ImageRepository $imagerepository , FileUploader $fileUploader): Response
+    {
+
+        $id = $request->request->get('id');
+        $em = $this->getDoctrine()->getManager();
+        $evenement = $imagerepository->find($id);
+
+        $em->remove($evenement);
+        $em->flush();
+
+
+        $file = $request->files->get('image');
+
+
+
+        if(!is_null($file)) {
+
+
+            $file = $fileUploader->upload($file);
+
+            $trickImages = new Image();
+
+            $trickImages->setFilename($file);
+
+            $trick->addImages($trickImages);
+
+            $this->getDoctrine()->getManager()->flush();
+
+            return new Response(json_encode(array("id_new" => $trickImages->getId() , "name" => $trickImages->getFilename() , "id"=>$id)));
+
+
+        }
+
+
+
 
     }
 

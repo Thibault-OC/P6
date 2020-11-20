@@ -17,7 +17,7 @@ class Tricks
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    public $id;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -27,7 +27,7 @@ class Tricks
     /**
      * @ORM\Column(type="text")
      */
-    private $content;
+    public $content;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="category", cascade={"persist"})
@@ -244,12 +244,6 @@ class Tricks
         return $this;
     }
 
-    public function __toString() {
-        if(is_null($this->trick)) {
-            return 'NULL';
-        }
-        return $this->trick;
-    }
 
 
 }
