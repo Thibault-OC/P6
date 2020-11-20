@@ -314,10 +314,21 @@ class TricksController extends AbstractController
     /**
      * @Route("/{id}", name="tricks_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Tricks $trick): Response
+    public function delete(Request $request, Tricks $trick , FileUploader $fileUploader): Response
     {
         if ($this->isCsrfTokenValid('delete'.$trick->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            $images =  $trick->getImages();
+
+            foreach ($images as $image) {
+
+                $image->getId();
+
+                $fileUploader->removeUpload($image);
+
+            }
+
             $entityManager->remove($trick);
             $entityManager->flush();
         }
@@ -329,15 +340,28 @@ class TricksController extends AbstractController
     /**
      * @Route("delete/trick", name="tricks_delete_ajax",  methods={"GET","POST"})
      */
-    public function deleteAjax(Request $request , TricksRepository $tricksRepository): Response
+    public function deleteAjax(Request $request , TricksRepository $tricksRepository , FileUploader $fileUploader): Response
     {
 
             $id = $request->request->get('id');
             $em = $this->getDoctrine()->getManager();
             $evenement = $tricksRepository->find($id);
 
+
+
+            $images =  $evenement->getImages();
+
+            foreach ($images as $image) {
+
+                $image->getId();
+
+                $fileUploader->removeUpload($image);
+
+            }
+
             $em->remove($evenement);
             $em->flush();
+
 
 
             return new JsonResponse($id);
@@ -352,12 +376,18 @@ class TricksController extends AbstractController
     public function editImage(Request $request ,Tricks $trick ,ImageRepository $imagerepository , FileUploader $fileUploader): Response
     {
 
+
+
+
         $id = $request->request->get('id');
+
         $em = $this->getDoctrine()->getManager();
+
         $evenement = $imagerepository->find($id);
 
+        $evenement = $fileUploader->removeUpload($evenement);
+
         $em->remove($evenement);
-        $em->flush();
 
 
         $file = $request->files->get('image');
@@ -365,6 +395,7 @@ class TricksController extends AbstractController
 
 
         if(!is_null($file)) {
+
 
 
             $file = $fileUploader->upload($file);
