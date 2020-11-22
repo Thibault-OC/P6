@@ -3,6 +3,11 @@
 {% block title %}Tricks index{% endblock %}
 
 {% block body %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
     <div class="img-beandeau" >
         <h1>Tricks index</h1>
         <a href="#tricks"><i class="fas fa-arrow-down"></i></a>
@@ -28,21 +33,13 @@
 
                     </div>
                     </a>
+                    {% if app.user %}
                     <div class="footer_card">
-                        {#{% if  not  app.user %}
-
-                            <a href="{{ path('app_login') }}">
-                                <div class="edit_tricks btn" ><i class="fas fa-pencil-alt"></i></div>
-                                {{ include('tricks/_delete_form.html.twig')}}
-                            </a>
-
-                        {% else%}#}
                             <a class="edit_tricks btn" href="{{ path('tricks_edit', {'id': trick.id}) }}"><i class="fas fa-pencil-alt"></i></a>
-                             {#{{ include('tricks/_delete_form.html.twig')}}#}
-                            <button type="button" onclick=" confirmationSuppression({{trick.id}})"  ><i class="fas fa-trash-alt"></i></button>
-                     {#{% endif %}#}
 
+                            <button type="button" onclick=" confirmationSuppression({{trick.id}})"  ><i class="fas fa-trash-alt"></i></button>
                     </div>
+                    {% endif %}
 
             </div>
         </div>

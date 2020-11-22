@@ -7,10 +7,12 @@
     <div class="bandeau-image trick">
         <img class="card-img-top" src="{{ asset('uploads/images/' ~ trick.image) }}" alt="Card image cap">
         <h1 class="titre-trick">{{ trick.title }}</h1>
-        <div class="content-btn">
-            {{ include('tricks/_delete_form.html.twig') }}
-            <a class="btn" href="{{ path('tricks_edit', {'id': trick.id}) }}"><i class="fas fa-pencil-alt"></i></a>
-        </div>
+        {% if app.user %}
+            <div class="content-btn">
+                {{ include('tricks/_delete_form.html.twig') }}
+                <a class="btn" href="{{ path('tricks_edit', {'id': trick.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+            </div>
+        {% endif %}
     </div>
 
 

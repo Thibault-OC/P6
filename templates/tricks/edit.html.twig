@@ -15,6 +15,11 @@
     </div>
 
     <div class="container-tricks">
+        {% for message in app.flashes('warning') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
         <div class="row">
 
             <div class="col-md-12">
@@ -25,6 +30,9 @@
 
                             <div id="video_{{video.id}}">
                                 <iframe height="100%" width="100%" src="{{ video.filename|raw }}?rel=0" allowfullscreen="" frameborder="0"></iframe>
+                                <button type="button" class="btn-edit" data-toggle="modal" data-target="#modalVideo" onclick="getId({{video.id}})">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
                                 <button type="button" class="btn-image" onclick=" confirmationSuppressionVideo({{video.id}})"><i class="fas fa-trash-alt"></i></button>
 
                             </div>
@@ -90,27 +98,6 @@
 
 
 
-    <div class="modal fade" id="modalMiniature" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    {{ form_row(form.image ,{'id': 'imgInp' , 'label' : 'Image', 'attr' : { 'class' : 'form-control-file' }} ) }}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" >Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
 
 
     <div class="container">
@@ -157,6 +144,32 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
                     <button type="button" class="btn btn-primary"  data-dismiss="modal" onclick=" editImage($id)">{{ button_label|default('Update') }}</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalVideo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="ajaxvideo" action="" enctype="multipart/form-data" method="post">
+                        <input type="text" id="inputvideo" name="video">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                    <button type="button" class="btn btn-primary"  data-dismiss="modal" onclick=" editVideo($id)">{{ button_label|default('Update') }}</button>
 
                 </div>
             </div>
@@ -310,6 +323,53 @@
                 }
             });
         }
+
+        function editVideo(id){
+
+            var data = new FormData();
+            data.append("id" ,id);
+            data.append("video" , $("#inputvideo").val());
+
+
+            $.ajax({
+                url:"{{ path('tricks_edit_videos', { 'id': trick.id }) }}",
+                data: data,// the formData function is available in almost all new browsers.
+                type:"post",
+                contentType:false,
+                processData:false,
+                cache:false,
+                dataType:"json", // Change this according to your response from the server.
+                error:function(err){
+                    console.error(err);
+                },
+                success:function(data){
+                    console.log(data);
+                    let id_string = JSON.parse(id);
+                    $("#video_" + id_string).remove();
+                    $(".slick-track").append(' <div class="slick-slide" id="image_'+ data.id_new+'">\n' +
+                        '\n' +
+                        '                                <iframe height="100%" width="100%" src="'+ data.name +'?rel=0" allowfullscreen="" frameborder="0"></iframe>\n' +
+                        '                                <button type="button" class="btn-edit" data-toggle="modal" data-target="#modalImage" onclick="getId('+data.id_new+')">\n' +
+                        '                                    <i class="fas fa-pencil-alt"></i>\n' +
+                        '                                </button>\n' +
+                        '                                <button type="button" class="btn-image"onclick="confirmationSuppression('+data.id_new+')"><i class="fas fa-trash-alt"></i></button>\n' +
+                        '\n' +
+                        '                                \n' +
+                        '                            </div>')
+
+
+                },
+                complete:function(data){
+
+                    console.log("Request finished.");
+
+                }
+            });
+
+        }
+
+
+
     </script>
 
 {% endblock %}

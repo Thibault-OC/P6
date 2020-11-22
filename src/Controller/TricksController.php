@@ -43,7 +43,7 @@ class TricksController extends AbstractController
     /**
      * @Route("/new", name="tricks_new", methods={"GET","POST"})
      */
-    public function new(Request $request , FileUploader $fileUploader)
+    public function new(Request $request , FileUploader $fileUploader ,TricksRepository $tricksRepository)
     {
         $trick = new Tricks();
 
@@ -58,6 +58,14 @@ class TricksController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+
+
+            $name_unique = $tricksRepository->findBy(
+                ['title' => $form->get('title')->getData()]
+            );
+
+
 
             $content = $form->get('content')->getData();
 
@@ -120,9 +128,19 @@ class TricksController extends AbstractController
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($trick);
-            $entityManager->flush();
 
-            return $this->redirectToRoute('tricks_index');
+
+            if (empty($name_unique)){
+                $entityManager->flush();
+                $this->addFlash('success', 'Article Created!');
+
+                return $this->redirectToRoute('tricks_index');
+            }
+
+            else{
+                $this->addFlash('warning', 'This name trick already exists');
+            }
+
         }
 
         return $this->render('tricks/new.html.twig', [
@@ -176,7 +194,7 @@ class TricksController extends AbstractController
     /**
      * @Route("/{id}/edit", name="tricks_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Tricks $trick ,  FileUploader $fileUploader): Response
+    public function edit(Request $request, Tricks $trick ,  FileUploader $fileUploader , TricksRepository $tricksRepository): Response
     {
         
         $trick->content = str_replace("<br />", "", $trick->getContent("content"));
@@ -190,6 +208,10 @@ class TricksController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $name_unique = $tricksRepository->findBy(
+                ['title' => $form->get('title')->getData(),]
+            );
 
 
             $content = $form->get('content')->getData();
@@ -261,10 +283,26 @@ class TricksController extends AbstractController
             }
 
 
+            if ($name_unique && $name_unique[0]->getId() == $trick->getId() ){
+                $this->getDoctrine()->getManager()->flush();
 
-            $this->getDoctrine()->getManager()->flush();
+                $this->addFlash('success', 'Article is updated !');
 
-            return $this->redirectToRoute('tricks_index');
+                return $this->redirectToRoute('tricks_index');
+            }
+            elseif (empty($name_unique)){
+                $this->getDoctrine()->getManager()->flush();
+
+                $this->addFlash('success', 'Article is updated !');
+
+                return $this->redirectToRoute('tricks_index');
+            }
+
+            else{
+                $this->addFlash('warning', 'This name trick already exists');
+            }
+
+
         }
 
         return $this->render('tricks/edit.html.twig', [
@@ -377,8 +415,6 @@ class TricksController extends AbstractController
     {
 
 
-
-
         $id = $request->request->get('id');
 
         $em = $this->getDoctrine()->getManager();
@@ -402,6 +438,7 @@ class TricksController extends AbstractController
 
             $trickImages = new Image();
 
+
             $trickImages->setFilename($file);
 
             $trick->addImages($trickImages);
@@ -414,6 +451,48 @@ class TricksController extends AbstractController
         }
 
 
+
+
+    }
+
+
+    /**
+     * @Route("/tricks/editVideo/{id}", name="tricks_edit_videos",  methods={"GET","POST"})
+     */
+
+    public function editVideo(Request $request ,Tricks $trick ,VideoRepository $videorepository ): Response
+    {
+
+
+        $id = $request->request->get('id');
+
+        $em = $this->getDoctrine()->getManager();
+        $evenement = $videorepository->find($id);
+
+
+        $em->remove($evenement);
+
+
+        $file = $request->request->get('video');
+
+
+        if(!is_null($file)) {
+
+
+            $trickVideos = new Video();
+
+            $file = str_replace("watch?v=","embed/", $file );
+
+            $trickVideos->setFilename($file);
+
+            $trick->addVideo($trickVideos);
+
+            $this->getDoctrine()->getManager()->flush();
+
+            return new Response(json_encode(array("id_new" => $trickVideos->getId() , "name" => $trickVideos->getFilename() , "id"=>$id)));
+
+
+        }
 
 
     }
