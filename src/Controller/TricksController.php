@@ -25,6 +25,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 
+
 /**
  * @Route("/tricks")
  */
@@ -33,10 +34,28 @@ class TricksController extends AbstractController
     /**
      * @Route("/", name="tricks_index", methods={"GET"})
      */
-    public function index(TricksRepository $tricksRepository): Response
+    public function index( TricksRepository $tricksRepository ): Response
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $repoArticles = $em->getRepository(Tricks::class);
+
+        $totalArticles = $repoArticles->createQueryBuilder('a')
+            ->select('count(a.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+
         return $this->render('tricks/index.html.twig', [
-            'tricks' => $tricksRepository->findAll(),
+            'tricks' => $tricksRepository->findBy(
+                array(), array('id' => 'DESC'),
+                10
+
+            ),
+            'nbTricks' => $totalArticles,
+
+
+
         ]);
     }
 
@@ -49,13 +68,9 @@ class TricksController extends AbstractController
 
         $trick->setCreatedAt(new \DateTime());
 
-
         $form = $this->createForm(TricksType::class, $trick);
 
-
         $form->handleRequest($request);
-
-
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -185,7 +200,9 @@ class TricksController extends AbstractController
             'comments' => $commentRepository->findBy(
                 ['trick' => $trick],
                 ['created_at' => 'DESC'],
+                5
             ),
+            'nbComments' =>count($trick->getTrick()),
             'trick' => $trick,
             'form' => $form->createView()
         ]);
@@ -226,7 +243,6 @@ class TricksController extends AbstractController
             if ($imageFile != null){
 
                 $trick->setImage(
-
 
                     new File($this->getParameter('brochures_directory').'/'.$trick->getImage())
 
@@ -494,6 +510,75 @@ class TricksController extends AbstractController
 
         }
 
+
+    }
+
+
+
+    /**
+     * @Route("/{id}/more", name="more_comments" , methods={"GET","POST"})
+     */
+
+    public function loadMore(Tricks $trick, CommentRepository $commentRepository, Request $request):JsonResponse
+    {
+
+        $datas = [];
+        $depart = (int)$request->get('nbComment');
+        $nbEnplus = 5;
+
+        //Pour tester dans des conditions Web
+        //sleep(5);
+
+        $listeMoreComment = $commentRepository->findBy(
+            ['trick'=>$trick->getId()],
+            ['id'=>'DESC'],
+            $nbEnplus,
+            $depart
+        );
+
+
+        foreach ( $listeMoreComment as $key => $item) {
+            $datas[$key]['id'] = $item->getId();
+            $datas[$key]['content'] = htmlspecialchars(nl2br($item->getComment()));
+            $datas[$key]['createdAt'] = $item->getCreatedAt()->format('d/m/Y');
+            $datas[$key]['user'] = $item->getUser()->getFirstname();
+        }
+
+        return new JsonResponse($datas);
+
+    }
+
+
+    /**
+     * @Route("/tricks/moretricks", name="more_tricks" , methods={"GET","POST"})
+     */
+
+    public function moreTricks( TricksRepository $tricksRepository, Request $request):JsonResponse
+    {
+
+        $datas = [];
+        $depart = (int)$request->get('nbTricks');
+        $nbEnplus = 10;
+
+
+        //Pour tester dans des conditions Web
+        //sleep(5);
+
+        $listeMoreTricks = $tricksRepository->findBy(
+        array(), array('id' => 'DESC'),
+        $nbEnplus,
+        $depart
+
+        );
+
+
+        foreach ( $listeMoreTricks as $key => $item) {
+            $datas[$key]['id'] = $item->getId();
+            $datas[$key]['name'] = $item->getTitle();
+
+        }
+
+        return new JsonResponse($datas);
 
     }
 

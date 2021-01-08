@@ -45,9 +45,11 @@
         "symfony/browser-kit": "^5.1",
         "symfony/css-selector": "^5.1",
         "symfony/debug-bundle": "^5.1",
-        "symfony/maker-bundle": "^1.0",
+        "symfony/maker-bundle": "^1.26",
         "symfony/phpunit-bridge": "^5.1",
-        "symfony/var-dumper": "^5.1"
+        "symfony/stopwatch": "^5.1",
+        "symfony/var-dumper": "^5.1",
+        "symfony/web-profiler-bundle": "^5.1"
     },
     "config": {
         "optimize-autoloader": true,
@@ -60,6 +62,7 @@
         "psr-4": {
             "App\\": "src/"
         }
+
     },
     "autoload-dev": {
         "psr-4": {
@@ -81,7 +84,7 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
-            "@auto-scripts"
+
         ],
         "post-update-cmd": [
             "@auto-scripts"
