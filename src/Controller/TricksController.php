@@ -46,6 +46,8 @@ class TricksController extends AbstractController
             ->getSingleScalarResult();
 
 
+
+
         return $this->render('tricks/index.html.twig', [
             'tricks' => $tricksRepository->findBy(
                 array(), array('id' => 'DESC'),
@@ -558,6 +560,7 @@ class TricksController extends AbstractController
 
         $datas = [];
         $depart = (int)$request->get('nbTricks');
+        $user = $this->getUser();
         $nbEnplus = 10;
 
 
@@ -572,9 +575,14 @@ class TricksController extends AbstractController
         );
 
 
+
         foreach ( $listeMoreTricks as $key => $item) {
             $datas[$key]['id'] = $item->getId();
             $datas[$key]['name'] = $item->getTitle();
+            $datas[$key]['image'] = $item->getImage();
+            $datas[$key]['user'] = $user;
+
+
 
         }
 

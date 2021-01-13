@@ -41,23 +41,29 @@
                     </div>
                     {% endif %}
 
+
+
             </div>
         </div>
         {% else %}
 
         {% endfor %}
-            <div class="d-flex justify-content-center mt-5" id="loadMoreComDiv">
-                <div class="card">
-                    <a href="#"><div id="loadMoreCom" class="card-body text-center"> <img id="ajax-loading-com" src="{{ asset('img/ajax-loader.gif') }}" alt="Loading" /> Load more</div></a>
-                </div>
-            </div>
 
-            {# Permet de recuperer la route et le total des tricks pour enelever le bouton load more #}
-            <span id="dataComment" data-total="{{ nbTricks }}" data-route="{{ path('more_tricks')}}"></span>
 
-            <div class="col-md-12 container-ancre">
-                <a class=" ancre-tricks"href="#tricks"><i class="fas fa-arrow-down"></i></a>
+
+        </div>
+    </div>
+    <div class="">
+        <div class="d-flex justify-content-center mt-5" id="loadMoreComDiv">
+            <div class="card">
+                <a href="#"><div id="loadMoreCom" class="card-body text-center"> <img id="ajax-loading-com" src="{{ asset('img/ajax-loader.gif') }}" alt="Loading" /> Load more</div></a>
             </div>
+        </div>
+
+        {# Permet de recuperer la route et le total des tricks pour enelever le bouton load more #}
+        <span id="dataComment" data-total="{{ nbTricks }}" data-route="{{ path('more_tricks')}}" ></span>
+        <div class="col-md-12 container-ancre">
+            <a class=" ancre-tricks"href="#tricks"><i class="fas fa-arrow-down"></i></a>
         </div>
     </div>
     <a href="{{ path('tricks_new') }}">Create new</a>

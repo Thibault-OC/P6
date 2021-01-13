@@ -8,19 +8,24 @@ $( document ).ready(function(){
     const dataComment = $("#dataComment");// recupere les informations pour le javascript
     const route = dataComment.data("route");// route pour l'appel ajax
 
+
+
     let nbCom = dataComment.data("total");// total de comments enregistré en Bdd
     let nbTotalComment;// initialisation du total de comments
 
-    //Pour afficher le load more ap partir de 6 commentaires
-    if(nbCom < 6){
+    //Pour afficher le load more ap partir de 10 ticks
+    if(nbCom < 10){
         loadMoreComDiv.remove();
     }
 
     animGifajax.hide(); // On masque le gif au chargement de la page
 
+
+
     loadMoreComment.click(function(e){
+
         animGifajax.show();// On montre le gif pour le chargement des tricks
-        let nbComment = $(".col-md-55 ").length; //Nombre de comment avant l'appel ajax
+        let nbComment = $(".col-md-55 ").length; //Nombre de ticks avant l'appel ajax
 
         e.preventDefault();
         $.ajax({
@@ -31,46 +36,82 @@ $( document ).ready(function(){
         }).done(function(data){
 
             //recupere l'emplacement
-            const placeToInsert = $(".row");
+            const placeToInsert = $(".container-tricks .row");
+
+
+
+
 
             //insertion avec boucle
             for(let i=0; i<data.length;i++){
 
-                let divCom = document.createElement("div");
-                divCom.className = "comment";
-                divCom.textContent = data[i].name;
-/*
-                let divCom = document.createElement("div");
-                divCom.className = "comment";
+                let divCol = document.createElement("div");
+                divCol.className = "col-md-55 mb-5 card_6";
 
-                let divUser = document.createElement("div");
-                divUser.className = "comment-avatar";
-                divUser.innerHTML = "<img src='https://gravatar.com/avatar/412c0b0ec99008245d902e6ed0b264ee?s=80'>";
+                let divCard = document.createElement("div");
+                divCard.className = "card";
 
+                let divHref = document.createElement("a");
+                divHref.setAttribute("href", "http://localhost/P6-new/P6-git/public/index.php/tricks/"+ data[i].id);
 
-                let divComContent = document.createElement("div");
-                divComContent.className = "comment-box";
+                let divBody = document.createElement("div");
+                divBody.className = "card-body";
 
-                let comText = document.createElement("div");
-                comText.className = "comment-text";
-                comText.textContent = data[i].content;
+                let divTitle = document.createElement("h5");
+                divTitle.className = "card-title";
+                divTitle.textContent = data[i].name;
 
-                let divAuthor = document.createElement("div");
-                divAuthor.className = "comment-footer";
-                divAuthor.innerHTML = "<span class='comment-author'>" + data[i].user + "</span>" + "<span class='comment-date'>" + data[i].createdAt + "</span>";
+                let divImage = document.createElement("img");
+                divImage.className = "card-img-top";
+                divImage.setAttribute("src",  "http://localhost/P6-new/P6-git/public/uploads/images/"+data[i].image+"");
 
 
-                divCom.append(divUser);
+             //si l'utilisateur est connecté
+                if ( data[i].user !== null){
 
-                divComContent.append(comText);
-                divComContent.append(divAuthor);
 
-                divCom.append(divComContent);
-                placeToInsert.append(divCom);
-                */
-                placeToInsert.append(divCom);
+                    let divEdit = document.createElement("div");
+                    divEdit.className = "footer_card";
 
-                //Nombre total de comments affiché
+                    let divBtn = document.createElement("a");
+                    divBtn.className = "edit_tricks btn";
+                    divBtn.setAttribute("href", "http://localhost/P6-new/P6-git/public/index.php/tricks/"+data[i].id+"edit/");
+
+                    let divPencil = document.createElement("i");
+                    divPencil.className = "fas fa-pencil-alt";
+
+                    let divBtnSupr = document.createElement("button");
+                    divBtnSupr.setAttribute("type", "button");
+                    divBtnSupr.setAttribute("onclick", "confirmationSuppression("+data[i].id+")");
+
+                    let divIconSupr = document.createElement("i");
+                    divIconSupr.className = "fas fa-trash-alt";
+
+                    divBtn.append(divPencil);
+
+                    divEdit.append(divBtn);
+
+                    divBtnSupr.append(divIconSupr);
+
+                    divEdit.append(divBtnSupr);
+
+                    divCard.append(divEdit);
+                }
+
+
+                divBody.append(divTitle);
+
+                divHref.append(divImage);
+
+                divHref.append(divBody);
+
+                divCard.append(divHref);
+
+                divCol.append(divCard);
+
+                placeToInsert.append(divCol);
+
+                //Nombre total de ticks affiché
                 nbTotalComment = nbComment + data.length;
 
                 //****Verifie le total pour supprimer le bouton load more
