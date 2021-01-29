@@ -36,19 +36,22 @@ public function __construct( $targetDirectory, SluggerInterface $slugger)
 }
 
 
-    public function uploadVideos(UploadedFile $file)
+    public function removeUpload ( $file)
     {
-        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $safeFilename = $this->slugger->slug($originalFilename);
-        $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+
+         $filename= $file->getFilename();
+
+         $url= $this->getTargetDirectory()."/".$filename;
+
+
 
         try {
-            $file->move($this->getTargetDirectory(), $fileName);
+            if(file_exists($url)) unlink($url);
         } catch (FileException $e) {
             // ... handle exception if something happens during file upload
         }
 
-        return $fileName;
+        return $file;
     }
 
 public function getTargetDirectory()

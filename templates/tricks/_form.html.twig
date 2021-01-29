@@ -1,26 +1,54 @@
-{{ form_start(form) }}
-    {{ form_label(form.title) }}
-    {{ form_widget(form.title) }}
-<br>
+<div id="page-trick" class="pt-2">
+    {{ form_start(form ) }}
 
-    {{ form_label(form.content) }}
-    {{ form_widget(form.content) }}
-<br>
-    {{ form_label(form.Category) }}
-    {{ form_widget(form.Category) }}
-<br>
-    {{ form_label(form.image) }}
-    {{ form_widget(form.image) }}
-<br>
-        <ul class="videos" data-prototype="&lt;div&gt;&lt;label class=&quot; required&quot;&gt;__filename__&lt;/label&gt;&lt;div id=&quot;tricks_videos___filename__&quot;&gt;&lt;div&gt;&lt;label for=&quot;tricks_videos___filename___filename&quot; class=&quot; required&quot;&gt;filename&lt;/label&gt;&lt;input type=&quot;text&quot; id=&quot;tricks_videos___filename___filename&quot; name=&quot;tricks[videos][__filename__][filename]&quot; required=&quot;required&quot; maxlength=&quot;255&quot; /&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;">
+    <div class= "bandeau-image trick">
+        <img id=blah class="img-fluid" src="../../P6/public/img/no-image-icon.jpg" />
+    </div>
 
-        </ul>
-
-    {{ form_widget(form.videos) }}
-
-
-<button class="btn">{{ button_label|default('Save') }}</button>
+        <div class="container edit-view pt-3">
+            <div class="row">
 
 
 
-{{ form_end(form) }}
+                <div class= " col-md-6">
+                    {{ form_row(form.image ,{'id': 'imgInp' , 'label' : 'Image', 'attr' : { 'class' : 'form-control-file' }} ) }}
+                </div>
+
+
+
+                <div class= " col-md-12">
+                    {{ form_row(form.title , { 'label' : 'Title', 'attr' : { 'class' : 'form-control' }}) }}
+                </div>
+
+                <div class= " col-md-12">
+                    {{ form_row(form.content , { 'label' : 'Content', 'attr' : { 'class' : 'form-control' }}) }}
+                </div>
+
+                <div class= " col-md-12">
+                    {{ form_row(form.Category  , { 'label' : 'Category', 'attr' : { 'class' : 'form-control' }}) }}
+                </div>
+
+
+
+                <div class= " col-md-12">
+                {{ form_row(form.videos , {'label' : 'Video'})}}
+
+                    <ul class="videos" data-prototype="&lt;div&gt;&lt;label class=&quot; required&quot;&gt;__filename__&lt;/label&gt;&lt;div id=&quot;tricks_videos___filename__&quot;&gt;&lt;div&gt;&lt;label for=&quot;tricks_videos___filename___filename&quot; class=&quot; required&quot;&gt;filename&lt;/label&gt;&lt;input type=&quot;text&quot; id=&quot;tricks_videos___filename___filename&quot; name=&quot;tricks[videos][__filename__][filename]&quot; required=&quot;required&quot; maxlength=&quot;255&quot; /&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;">
+
+                    </ul>
+
+                </div>
+
+                <div class= " col-md-12">
+                    {{ form_row(form.images ,{'id': 'Album'  , 'label' : 'Images', 'attr' : { 'class' : 'form-control-file' }} ) }}
+                </div>
+
+                <div class= " col-md-12 btn-save ">
+                    <button class="btn btn-lg btn-primary">{{ button_label|default('Save') }}</button>
+                </div>
+            </div>
+
+        </div>
+    {{ form_end(form) }}
+
+</div>

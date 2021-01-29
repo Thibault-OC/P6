@@ -20,7 +20,7 @@ class Video
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $filename;
+    public $filename;
 
     /**
      * @ORM\ManyToOne(targetEntity=Tricks::class, inversedBy="videos")

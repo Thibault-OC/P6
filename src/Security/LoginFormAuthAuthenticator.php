@@ -19,6 +19,8 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Guard\PasswordAuthenticatedInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 class LoginFormAuthAuthenticator extends AbstractFormLoginAuthenticator implements PasswordAuthenticatedInterface
 {
@@ -79,6 +81,7 @@ class LoginFormAuthAuthenticator extends AbstractFormLoginAuthenticator implemen
 
     public function checkCredentials($credentials, UserInterface $user)
     {
+        
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
     }
 
@@ -92,20 +95,24 @@ class LoginFormAuthAuthenticator extends AbstractFormLoginAuthenticator implemen
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {
-        if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
 
-            return new RedirectResponse($targetPath);
-        }
-        $user = $token->getUser();
+            if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
 
-        $user->setLastLoginAt(new \DateTime());
+                return new RedirectResponse($targetPath);
+            }
+            $user = $token->getUser();
 
-        $this->entityManager->flush();
+            $user->setLastLoginAt(new \DateTime());
 
-        // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
-        
-        
+            $this->entityManager->flush();
+
+            // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
+            //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+
+
+            return new RedirectResponse($this->urlGenerator->generate('tricks_index'));
+
+
     }
 
     protected function getLoginUrl()

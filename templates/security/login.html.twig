@@ -4,10 +4,13 @@
 
 {% block body %}
     <div class="page_login">
-    <h1 class="h3 mb-3 font-weight-normal text-center">Login</h1>
 
 
         <form method="post">
+
+            <div class="form-header">
+                <h1>Login</h1>
+            </div>
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
@@ -22,6 +25,7 @@
             <label for="inputPassword">Password</label>
             <input type="password" name="password" id="inputPassword" class="form-control" required>
 
+            <input type="hidden" name="_target_path" value="{{ path('tricks_new') }}"/>
             <input type="hidden" name="_csrf_token"
                    value="{{ csrf_token('authenticate') }}"
             >
@@ -37,7 +41,7 @@
                 </div>
             #}
 
-            <a href ="http://51.75.126.51/P6/public/index.php/reset-password"> Forgot Passsword ?</a>
+            <a href ="{{ path('app_forgot_password_request') }}"> Forgot Passsword ?</a>
             <button class="btn btn-lg btn-primary" type="submit">
                 Sign in
             </button>

@@ -4,7 +4,7 @@ jQuery(document).ready(function() {
     var $collectionHolder;
 
 // setup an "add a Video" link
-    var $addVideoLink = $('<a href="#" class="add_video_link">Add a tag</a>');
+    var $addVideoLink = $('<a href="#" class="add_video_link">Add Video</a>');
     var $newLinkLi = $('<li></li>').append($addVideoLink);
 
 
@@ -16,7 +16,9 @@ jQuery(document).ready(function() {
 
         // count the current form inputs we have (e.g. 2), use that as the new
         // index when inserting a new item (e.g. 2)
-        $collectionHolder.data('index', $collectionHolder.find(':input').length);
+        var videos = $("#tricks_videos input").length;
+
+        $collectionHolder.data('index', videos);
 
         $addVideoLink.on('click', function(e) {
             // prevent the link from creating a "#" on the URL
@@ -88,6 +90,52 @@ jQuery(document).ready(function($){
                     $("html, body").animate( { scrollTop: anchor.offset().top }, 1500);
                 }
             }
+        });
+    });
+
+
+    $('.variable-width').slick({
+        dots: false,
+        speed: 300,
+        slidesToShow: 1,
+        centerMode: true,
+        variableWidth: true,
+        prevArrow: $('.prev'),
+        nextArrow: $('.next'),
+    });
+
+    $('.variable-width-edit').slick({
+        dots: false,
+        infinite: false,
+        speed: 300,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        prevArrow: $('.prev'),
+        nextArrow: $('.next'),
+    });
+
+
+
+
+    $(document).ready(function () {
+
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+
+        $("#imgInp").change(function(){
+            readURL(this);
+
         });
     });
 

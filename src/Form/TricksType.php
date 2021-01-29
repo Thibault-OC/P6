@@ -23,8 +23,8 @@ class TricksType extends AbstractType
         $builder
             ->add('title')
             ->add('content')
-            /*->add('videos', FileType::class, [
-                'label' => 'Videos',
+            ->add('images', FileType::class, [
+                'label' => 'Images',
                 'multiple' => true,
                 'mapped'=> false,
                 'required'=>false,
@@ -32,7 +32,7 @@ class TricksType extends AbstractType
                     'accept' => 'image/*',
                    
                 ],
-            ])*/
+            ])
             
             ->add('videos', CollectionType::class, array(
                 'entry_type' => VideoType::class,
