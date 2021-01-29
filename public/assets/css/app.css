@@ -283,6 +283,12 @@ textarea#tricks_content {
 .container.edit-view{
     max-width: 800px;
     margin: 0 auto;
+    padding-bottom: 30px;
+}
+
+.container.edit-view .btn-save{
+    text-align: right;
+    margin-top: 20px;
 }
 
 .img-user{
@@ -295,8 +301,11 @@ textarea#tricks_content {
 .container-comment .comment{
     border: solid 1px;
 }
-.container.info{
+.info{
     padding: 30px 15px;
+}
+.info .badge{
+    margin-bottom: 15px;
 }
 .form-comment{
     max-width:700px;
@@ -309,7 +318,9 @@ textarea#tricks_content {
     align-items: center;
     position: relative;
 }
-
+.no-comments p{
+    text-align: center;
+}
 
 
 
@@ -456,7 +467,8 @@ span.badge-primary {
 
 
 #page-trick{
-    max-width: 1200px;
+    width: 1200px;
+    max-width: 95%;
     margin: 0 auto;
     margin-top: 5%;
     margin-bottom: 5%;
@@ -468,16 +480,67 @@ span.badge-primary {
     margin: 0 auto;
 }
 
+#loadMoreCom{
+    background: #555f77;
+    color: #fff;
+}
+.nav.mobile{
+    display: none;
+}
+h1.new{
+    text-align: center;
+}
+#loadMoreComDiv{
+    width: 100%;
+}
 
-@media (min-width: 768px)
+@media (min-width: 1200px)
 {
     .col-md-55 {
-        -ms-flex: 0 0 20%;
-        flex: 0 0 20%;
-        max-width: 20%;
-        position: relative;
-        padding-right: 15px;
-        padding-left: 15px;
+        -ms-flex: 0 0 20% !important;
+        flex: 0 0 20% !important;
+        max-width: 20% !important;
+        position: relative !important;
+        padding-right: 15px !important;
+        padding-left: 15px !important;
     }
+}
+
+@media(max-width: 575px){
+    header .col-logo{
+        display: none;
+    }
+
+    .nav.desktop{
+        display: none;
+    }
+    .nav.mobile{
+        display: flex;
+
+    }
+    header{
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        z-index: 100;
+        padding: 10px;
+    }
+    header .col-menu {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .nav.mobile img{
+        max-width :25px;
+
+    }
+    .img-beandeau h1{
+        text-align: center;
+     }
+    .titre-trick {
+        text-align: center;
+        width: 100%;
+    }
+
 }
 

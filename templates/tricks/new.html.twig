@@ -3,7 +3,7 @@
 {% block title %}New Tricks{% endblock %}
 
 {% block body %}
-    <h1>Create new Tricks</h1>
+    <h1 class="new mt-5">Create new Tricks</h1>
 
     {% for message in app.flashes('warning') %}
         <div class="alert alert-danger">
@@ -13,5 +13,5 @@
 
     {{ include('tricks/_form.html.twig') }}
 
-    <a href="{{ path('tricks_index') }}">back to list</a>
+   <!-- <a href="{{ path('tricks_index') }}">back to list</a>-->
 {% endblock %}

@@ -10,7 +10,7 @@
         {% if app.user %}
             <div class="content-btn">
                 {{ include('tricks/_delete_form.html.twig') }}
-                <a class="btn" href="{{ path('tricks_edit', {'id': trick.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                <a class="btn" href="{{ path('tricks_edit', {'slug': trick.slug}) }}"><i class="fas fa-pencil-alt"></i></a>
             </div>
         {% endif %}
     </div>
@@ -60,7 +60,7 @@
         </div>
 
     </div>
-    <div class="container info text-center">
+    <div class=" info text-center">
 
         <span class="badge badge-primary">Category : {{ trick.category.name }}</span>
         <span class="badge badge-primary">Created at: {{ trick.createdAt ? trick.createdAt|date('Y/m/d H:i:s') : '' }}</span>
@@ -115,9 +115,9 @@
 
 
             {% else %}
-                <tr>
-                    <td colspan="4">no records found</td>
-                </tr>
+             <div class="no-comments">
+                <p>no comments</p>
+             </div>
             {% endfor %}
 
         </div>

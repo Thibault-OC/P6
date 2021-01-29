@@ -4,12 +4,12 @@
 
 {% block body %}
     {% for message in app.flashes('success') %}
-        <div class="alert alert-success">
+        <div class="alert alert-success alert-explode">
             {{ message }}
         </div>
     {% endfor %}
     <div class="img-beandeau" >
-        <h1>Tricks index</h1>
+        <h1>Tricks snowboard</h1>
         <a href="#tricks"><i class="fas fa-arrow-down"></i></a>
     </div>
 
@@ -21,10 +21,11 @@
 
 
 
-        <div class="col-md-55 mb-5 card_{{trick.id}}">
+        <div class="col-md-55 mb-5 col-lg-4 col-md-4 col-sm-6 card_{{trick.id}}">
 
                 <div class="card ">
-                    <a href="{{ path('tricks_show', {'id': trick.id}) }}">
+                    <a href="{{ path('tricks_show', {'slug': trick.slug}) }}">
+
                     <img class="card-img-top" src="{{ asset('uploads/images/' ~ trick.image) }}" alt="Card image cap">
 
                     <div class="card-body">
@@ -35,9 +36,9 @@
                     </a>
                     {% if app.user %}
                     <div class="footer_card">
-                            <a class="edit_tricks btn" href="{{ path('tricks_edit', {'id': trick.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                            <a class="edit_tricks btn" href="{{ path('tricks_edit', {'slug': trick.slug}) }}"><i class="fas fa-pencil-alt"></i></a>
 
-                            <button type="button" onclick=" confirmationSuppression({{trick.id}})"  ><i class="fas fa-trash-alt"></i></button>
+                            <button type="button" onclick="confirmationSuppression({{trick.id}})"  ><i class="fas fa-trash-alt"></i></button>
                     </div>
                     {% endif %}
 
@@ -66,7 +67,7 @@
             <a class=" ancre-tricks"href="#tricks"><i class="fas fa-arrow-down"></i></a>
         </div>
     </div>
-    <a href="{{ path('tricks_new') }}">Create new</a>
+
 {% endblock %}
 
 {% block javascripts %}

@@ -4,7 +4,7 @@ jQuery(document).ready(function() {
     var $collectionHolder;
 
 // setup an "add a Video" link
-    var $addVideoLink = $('<a href="#" class="add_video_link">Add a tag</a>');
+    var $addVideoLink = $('<a href="#" class="add_video_link">Add Video</a>');
     var $newLinkLi = $('<li></li>').append($addVideoLink);
 
 
@@ -96,14 +96,23 @@ jQuery(document).ready(function($){
 
     $('.variable-width').slick({
         dots: false,
-        infinite: false,
         speed: 300,
         slidesToShow: 1,
         centerMode: true,
+        variableWidth: true,
         prevArrow: $('.prev'),
         nextArrow: $('.next'),
     });
 
+    $('.variable-width-edit').slick({
+        dots: false,
+        infinite: false,
+        speed: 300,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        prevArrow: $('.prev'),
+        nextArrow: $('.next'),
+    });
 
 
 

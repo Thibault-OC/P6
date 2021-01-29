@@ -25,7 +25,7 @@
             <div class="col-md-12">
                 <div class="carousel">
 
-                    <div class="variable-width">
+                    <div class="variable-width-edit">
                         {% for video in trick.videos %}
 
                             <div id="video_{{video.id}}">
@@ -85,6 +85,24 @@
 
                 </div>
 
+                <div class="container">
+                    <div class="row">
+
+                        <div class= " col-md-12">
+                            {{ form_row(form.videos , {'label' : 'Video'})}}
+
+                            <ul class="videos" data-prototype="&lt;div&gt;&lt;label class=&quot; required&quot;&gt;__filename__&lt;/label&gt;&lt;div id=&quot;tricks_videos___filename__&quot;&gt;&lt;div&gt;&lt;label for=&quot;tricks_videos___filename___filename&quot; class=&quot; required&quot;&gt;filename&lt;/label&gt;&lt;input type=&quot;text&quot; id=&quot;tricks_videos___filename___filename&quot; name=&quot;tricks[videos][__filename__][filename]&quot; required=&quot;required&quot; maxlength=&quot;255&quot; /&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;">
+
+                            </ul>
+
+
+                            {{ form_row(form.images , {'label' : 'images'})}}
+                        </div>
+
+                    </div>
+
+                </div>
+
                 <div class="container_btn col-md-12">
 
                     <button class="btn btn-lg btn-primary">{{ button_label|default('Update') }}</button>
@@ -98,26 +116,27 @@
 
 
 
-
-
-    <div class="container">
-        <div class="row">
-
-
-
-            <div class= " col-md-12">
-                {{ form_row(form.videos , {'label' : 'Video'})}}
-
-                <ul class="videos" data-prototype="&lt;div&gt;&lt;label class=&quot; required&quot;&gt;__filename__&lt;/label&gt;&lt;div id=&quot;tricks_videos___filename__&quot;&gt;&lt;div&gt;&lt;label for=&quot;tricks_videos___filename___filename&quot; class=&quot; required&quot;&gt;filename&lt;/label&gt;&lt;input type=&quot;text&quot; id=&quot;tricks_videos___filename___filename&quot; name=&quot;tricks[videos][__filename__][filename]&quot; required=&quot;required&quot; maxlength=&quot;255&quot; /&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;">
-
-                </ul>
+    <div class="modal fade" id="modalMiniature" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ form_row(form.image ,{'id': 'imgInp' , 'label' : 'Image', 'attr' : { 'class' : 'form-control-file' }} ) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" >Save changes</button>
+                </div>
             </div>
-
-
-
         </div>
-
     </div>
+
+
 
 
     {{ form_end(form) }}
@@ -130,13 +149,14 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Change picture</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="ajaximage" action="" enctype="multipart/form-data" method="post">
+                    <form id="ajaximage" action="" enctype="multipart/form-data" method="post"
+                        <label>New picture</label>
                         <input type="file" id="input" name="image">
                     </form>
                 </div>
@@ -151,18 +171,21 @@
     </div>
 
 
+
+
     <!-- Modal -->
     <div class="modal fade" id="modalVideo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Change video</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form id="ajaxvideo" action="" enctype="multipart/form-data" method="post">
+                        <label>New video</label>
                         <input type="text" id="inputvideo" name="video">
                     </form>
                 </div>

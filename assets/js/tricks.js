@@ -1,6 +1,7 @@
 //attend que le DOM soit chargé
 $( document ).ready(function(){
 
+
     const loadMoreComment = $("#loadMoreCom");
     const loadMoreComDiv = $("#loadMoreComDiv");
     const animGifajax = $("#ajax-loading-com");
@@ -46,13 +47,13 @@ $( document ).ready(function(){
             for(let i=0; i<data.length;i++){
 
                 let divCol = document.createElement("div");
-                divCol.className = "col-md-55 mb-5 card_6";
+                divCol.className = "col-md-55 mb-5 col-lg-4 col-md-4 col-sm-6 card_"+data[i].id+"";
 
                 let divCard = document.createElement("div");
                 divCard.className = "card";
 
                 let divHref = document.createElement("a");
-                divHref.setAttribute("href", "http://localhost/P6-new/P6-git/public/index.php/tricks/"+ data[i].id);
+                divHref.setAttribute("href", "http://localhost/P6-new/P6-git/public/index.php/"+data[i].slug+"");
 
                 let divBody = document.createElement("div");
                 divBody.className = "card-body";
@@ -75,7 +76,7 @@ $( document ).ready(function(){
 
                     let divBtn = document.createElement("a");
                     divBtn.className = "edit_tricks btn";
-                    divBtn.setAttribute("href", "http://localhost/P6-new/P6-git/public/index.php/tricks/"+data[i].id+"edit/");
+                    divBtn.setAttribute("href", "http://localhost/P6-new/P6-git/public/index.php/"+data[i].slug+"/edit/");
 
                     let divPencil = document.createElement("i");
                     divPencil.className = "fas fa-pencil-alt";

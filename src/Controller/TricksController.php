@@ -23,11 +23,12 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Cocur\Slugify\Slugify;
 
 
 
 /**
- * @Route("/tricks")
+ * @Route("/")
  */
 class TricksController extends AbstractController
 {
@@ -68,6 +69,8 @@ class TricksController extends AbstractController
     {
         $trick = new Tricks();
 
+        $slugify = new Slugify();
+
         $trick->setCreatedAt(new \DateTime());
 
         $form = $this->createForm(TricksType::class, $trick);
@@ -76,7 +79,9 @@ class TricksController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $slug = $slugify->slugify($form->get('title')->getData(), ['separator' => '-']);
 
+            $trick->setSlug($slug);
 
             $name_unique = $tricksRepository->findBy(
                 ['title' => $form->get('title')->getData()]
@@ -167,7 +172,7 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="tricks_show",  methods={"GET","POST"})
+     * @Route("/{slug}", name="tricks_show",  methods={"GET","POST"})
      */
     public function show(Tricks $trick ,CommentRepository $commentRepository, Request $request ): Response
     {
@@ -194,7 +199,7 @@ class TricksController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute('tricks_show', [
-                'id' => $trick->getId(),
+                'slug' => $trick->getSlug(),
         ]);
         }
 
@@ -211,10 +216,12 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="tricks_edit", methods={"GET","POST"})
+     * @Route("/{slug}/edit", name="tricks_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Tricks $trick ,  FileUploader $fileUploader , TricksRepository $tricksRepository): Response
     {
+
+        $slugify = new Slugify();
         
         $trick->content = str_replace("<br />", "", $trick->getContent("content"));
 
@@ -231,6 +238,10 @@ class TricksController extends AbstractController
             $name_unique = $tricksRepository->findBy(
                 ['title' => $form->get('title')->getData(),]
             );
+
+            $slug = $slugify->slugify($form->get('title')->getData(), ['separator' => '-']);
+
+            $trick->setSlug($slug);
 
 
             $content = $form->get('content')->getData();
@@ -388,6 +399,7 @@ class TricksController extends AbstractController
             $entityManager->remove($trick);
             $entityManager->flush();
         }
+        $this->addFlash('warning', 'This name trick already exists');
 
         return $this->redirectToRoute('tricks_index');
     }
@@ -580,6 +592,7 @@ class TricksController extends AbstractController
             $datas[$key]['id'] = $item->getId();
             $datas[$key]['name'] = $item->getTitle();
             $datas[$key]['image'] = $item->getImage();
+            $datas[$key]['slug'] = $item->getslug();
             $datas[$key]['user'] = $user;
 
 
