@@ -4,8 +4,8 @@ jQuery(document).ready(function() {
     var $collectionHolder;
 
 // setup an "add a Video" link
-    var $addVideoLink = $('<a href="#" class="add_video_link">Add Video</a>');
-    var $newLinkLi = $('<li></li>').append($addVideoLink);
+    var $addVideoLink = $("<a href='#' class='add_video_link'>Add Video</a>");
+    var $newLinkLi = $("<li></li>").append($addVideoLink);
 
 
         // Get the ul that holds the collection of Videos
@@ -20,7 +20,7 @@ jQuery(document).ready(function() {
 
         $collectionHolder.data("index", videos);
 
-        $addVideoLink.on('click', function(e) {
+        $addVideoLink.on("click", function(e) {
             // prevent the link from creating a "#" on the URL
             e.preventDefault();
 
@@ -32,7 +32,7 @@ jQuery(document).ready(function() {
 
     function addVideoForm($collectionHolder, $newLinkLi) {
         // Get the data-prototype explained earlier
-        var prototype = $collectionHolder.data('prototype');
+        var prototype = $collectionHolder.data("prototype");
 
         // get the new index
         var index = $collectionHolder.data("index");
@@ -48,7 +48,7 @@ jQuery(document).ready(function() {
         var $newFormLi = $("<li></li>").append(newForm);
 
         // also add a remove button, just for this example
-        $newFormLi.append('<a href="#" class="remove-video">x</a>');
+        $newFormLi.append("<a href='#' class='remove-video'>x</a>");
 
         $newLinkLi.before($newFormLi);
 
@@ -81,8 +81,8 @@ jQuery(document).ready(function($){
          **/
         $("a[href*='#']:not([href='#'])").click(function() {
             if (
-                location.hostname == this.hostname
-                && this.pathname.replace(/^\//,"") == location.pathname.replace(/^\//,"")
+                location.hostname === this.hostname
+                && this.pathname.replace(/^\//,"") === location.pathname.replace(/^\//,"")
             ) {
                 var anchor = $(this.hash);
                 anchor = anchor.length ? anchor : $("[name=" + this.hash.slice(1) +"]");
@@ -94,7 +94,7 @@ jQuery(document).ready(function($){
     });
 
 
-    $('.variable-width').slick({
+    $(".variable-width").slick({
         dots: false,
         speed: 300,
         slidesToShow: 1,
@@ -104,14 +104,14 @@ jQuery(document).ready(function($){
         nextArrow: $(".next"),
     });
 
-    $('.variable-width-edit').slick({
+    $(".variable-width-edit").slick({
         dots: false,
         infinite: false,
         speed: 300,
         slidesToShow: 3,
         slidesToScroll: 1,
-        prevArrow: $('.prev'),
-        nextArrow: $('.next'),
+        prevArrow: $(".prev"),
+        nextArrow: $(".next"),
     });
 
 
@@ -125,7 +125,7 @@ jQuery(document).ready(function($){
                 var reader = new FileReader();
 
                 reader.onload = function (e) {
-                    $('#blah').attr('src', e.target.result);
+                    $("#blah").attr("src", e.target.result);
                 }
 
                 reader.readAsDataURL(input.files[0]);
