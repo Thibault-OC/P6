@@ -53,7 +53,7 @@ jQuery(document).ready(function() {
         $newLinkLi.before($newFormLi);
 
         // handle the removal, just for this example
-        $(".remove-video"").click(function(e) {
+        $(".remove-video").click(function(e) {
 
 
 
