@@ -58,6 +58,12 @@ header {
   letter-spacing: 0.2em;
 }
 
+.container_btn .btn {
+  font-size: 15px;
+  padding: 0.375rem 0.75rem;
+  margin-left: 15px;
+}
+
 .page_login form .btn {
   background: #4285f4;
   width: 100%;
@@ -130,14 +136,14 @@ body footer {
   margin-bottom: 40px;
 }
 
+.slick-slide img {
+  object-fit: cover;
+}
+
 .slick-list .slick-slide,
 .slick-list .slick-slide img {
   height: 200px;
   width: 350px;
-}
-
-.slick-slide img {
-  object-fit: cover;
 }
 
 .container-tricks {
@@ -269,12 +275,6 @@ body footer {
 
 .form_delete {
   display: inline-block;
-}
-
-.container_btn .btn {
-  font-size: 15px;
-  padding: 0.375rem 0.75rem;
-  margin-left: 15px;
 }
 
 .container_btn {
@@ -448,7 +448,6 @@ textarea#tricks_content {
   width: 15%;
 }
 
-
 .comment-form .comment-avatar,
 .comment .comment-avatar {
   border: 2px solid #fff;
@@ -551,7 +550,6 @@ form[name="change_password_form"] input {
 
   .nav.mobile {
     display: flex;
-
   }
 
   header {
