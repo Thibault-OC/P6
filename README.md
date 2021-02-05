@@ -1,7 +1,7 @@
 <h1>Projet 6 - Développez de A à Z le site communautaire SnowTricks</h1>
 <h2>>Codacy</h2>
 <h3>Vous trouverez la qualité du code suivi via Codacy : </h3>
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/09cd42a3c42c4deb8e7d6b557a7de9c3)](https://www.codacy.com/gh/Thibault-OC/P6/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Thibault-OC/P6&amp;utm_campaign=Badge_Grade)
+<a href="https://www.codacy.com/gh/Thibault-OC/P6/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Thibault-OC/P6&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/09cd42a3c42c4deb8e7d6b557a7de9c3"/></a>
 <h3>Installation avec git</h3>
     <ul>
         <li>Utiliser la ligne de commande git  <code> git clone https://github.com/Thibault-OC/P5_Blog.git</code> </li>
