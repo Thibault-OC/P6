@@ -9,7 +9,7 @@ jQuery(document).ready(function() {
 
 
         // Get the ul that holds the collection of Videos
-        $collectionHolder = $('ul.videos');
+        $collectionHolder = $("ul.videos");
 
         // add the "add a Video" anchor and li to the Videos ul
         $collectionHolder.append($newLinkLi);
@@ -35,17 +35,17 @@ jQuery(document).ready(function() {
         var prototype = $collectionHolder.data('prototype');
 
         // get the new index
-        var index = $collectionHolder.data('index');
+        var index = $collectionHolder.data("index");
 
         // Replace '$$name$$' in the prototype's HTML to
         // instead be a number based on how many items we have
         var newForm = prototype.replace(/__filename__/g, index);
 
         // increase the index with one for the next item
-        $collectionHolder.data('index', index + 1);
+        $collectionHolder.data("index", index + 1);
 
         // Display the form in the page in an li, before the "Add a Video" link li
-        var $newFormLi = $('<li></li>').append(newForm);
+        var $newFormLi = $("<li></li>").append(newForm);
 
         // also add a remove button, just for this example
         $newFormLi.append('<a href="#" class="remove-video">x</a>');
@@ -100,8 +100,8 @@ jQuery(document).ready(function($){
         slidesToShow: 1,
         centerMode: true,
         variableWidth: true,
-        prevArrow: $('.prev'),
-        nextArrow: $('.next'),
+        prevArrow: $(".prev"),
+        nextArrow: $(".next"),
     });
 
     $('.variable-width-edit').slick({

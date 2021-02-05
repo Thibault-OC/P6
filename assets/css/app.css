@@ -1,7 +1,8 @@
 body {
-    background-color: lightgray;
+  background-color: lightgray;
 }
 
-header , footer{
-    background: slategrey;
+header,
+footer{
+  background: slategrey;
 }
