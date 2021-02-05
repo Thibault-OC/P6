@@ -1,0 +1,2 @@
+# P6
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/25e6f7c8346244f6bc8043c749de9b95)](https://app.codacy.com/gh/Thibault-OC/P6?utm_source=github.com&utm_medium=referral&utm_content=Thibault-OC/P6&utm_campaign=Badge_Grade_Settings)
