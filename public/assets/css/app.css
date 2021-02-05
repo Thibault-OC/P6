@@ -530,13 +530,13 @@ form[name="change_password_form"] input {
 
 
 @media (min-width: 1200px) {
-  .col-md-55 {
-    -ms-flex: 0 0 20% !important;
-    flex: 0 0 20% !important;
-    max-width: 20% !important;
-    position: relative !important;
-    padding-right: 15px !important;
-    padding-left: 15px !important;
+  #tricks .col-md-55 {
+    -ms-flex: 0 0 20%;
+    flex: 0 0 20%;
+    max-width: 20%;
+    position: relative;
+    padding-right: 15px;
+    padding-left: 15px;
   }
 }
 
