@@ -18,7 +18,7 @@ jQuery(document).ready(function() {
         // index when inserting a new item (e.g. 2)
         var videos = $("#tricks_videos input").length;
 
-        $collectionHolder.data('index', videos);
+        $collectionHolder.data("index", videos);
 
         $addVideoLink.on('click', function(e) {
             // prevent the link from creating a "#" on the URL
@@ -53,7 +53,7 @@ jQuery(document).ready(function() {
         $newLinkLi.before($newFormLi);
 
         // handle the removal, just for this example
-        $('.remove-video').click(function(e) {
+        $(".remove-video"").click(function(e) {
 
 
 
