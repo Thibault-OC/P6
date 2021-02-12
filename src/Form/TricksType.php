@@ -21,8 +21,12 @@ class TricksType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('content')
+            ->add('title',null,[
+            'required' => true,
+                ])
+            ->add('content',null,[
+                'required' => true,
+            ])
             ->add('images', FileType::class, [
                 'label' => 'Images',
                 'multiple' => true,
@@ -54,6 +58,7 @@ class TricksType extends AbstractType
       ])
         ->add('image', FileType::class, [
         'label' => 'Image',
+
 
 
         // unmapped means that this field is not associated to any entity property
