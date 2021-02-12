@@ -67,6 +67,7 @@ class TricksController extends AbstractController
      */
     public function new(Request $request , FileUploader $fileUploader ,TricksRepository $tricksRepository)
     {
+        
         $trick = new Tricks();
 
         $slugify = new Slugify();
