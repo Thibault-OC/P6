@@ -35,9 +35,14 @@ class TricksController extends AbstractController
     /**
      * @Route("/", name="tricks_index", methods={"GET"})
      */
+
+    /* Route page Home */
     public function index( TricksRepository $tricksRepository ): Response
     {
         $em = $this->getDoctrine()->getManager();
+
+
+        /* Calcul du nombre de trick pour la pagination ajax */
 
         $repoArticles = $em->getRepository(Tricks::class);
 
@@ -48,6 +53,7 @@ class TricksController extends AbstractController
 
 
 
+        /* retourne la vue home avec le nombre des tricks */
 
         return $this->render('tricks/index.html.twig', [
             'tricks' => $tricksRepository->findBy(
@@ -65,12 +71,16 @@ class TricksController extends AbstractController
     /**
      * @Route("/new", name="tricks_new", methods={"GET","POST"})
      */
+
+    /* Route pas création d'un trick */
     public function new(Request $request , FileUploader $fileUploader ,TricksRepository $tricksRepository)
     {
         
         $trick = new Tricks();
 
         $slugify = new Slugify();
+
+        /*Ajout date de création du Trick avec la date actuel*/
 
         $trick->setCreatedAt(new \DateTime());
 
@@ -82,6 +92,8 @@ class TricksController extends AbstractController
 
             $trick->setUser($this->getUser());
 
+            /* Appel de la fonction slugify pour modifier le titre */
+
             $slug = $slugify->slugify($form->get('title')->getData(), ['separator' => '-']);
 
             $trick->setSlug($slug);
@@ -90,9 +102,9 @@ class TricksController extends AbstractController
                 ['title' => $form->get('title')->getData()]
             );
 
-
-
             $content = $form->get('content')->getData();
+
+            /* utilisation de nlb2r() pour garder les sauts de ligne du contenu */
 
             $content_form = nl2br( $content );
 
@@ -102,11 +114,15 @@ class TricksController extends AbstractController
              * @var UploadedFile $videos
              */
 
+            /* boucle d'insertion du champ video */
+
             $videos = $form->get('videos')->getData();
 
             foreach ($videos as $video){
 
                 $trickVideos = new Video();
+
+                /* renome une url youtube en lien embed pour faciliter l'ajout des videos */
 
                 $video->filename = str_replace("watch?v=","embed/", $video->filename );
 
@@ -119,7 +135,7 @@ class TricksController extends AbstractController
 
             $images= $form->get('images')->getData();
 
-
+            /* boucle d'insertion du champ image */
             foreach ($images as $image){
 
                 $filename = $fileUploader->upload($image);
@@ -138,6 +154,8 @@ class TricksController extends AbstractController
              * @var UploadedFile $imageFile
              */
 
+            /* insertion de l'image principal du trick */
+
             $imageFile = $form->get('image')->getData();
 
 
@@ -154,6 +172,7 @@ class TricksController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($trick);
 
+            /* verification avant insertion : le nom du trick dooit etre unique */
 
             if (empty($name_unique)){
                 $entityManager->flush();
@@ -177,6 +196,8 @@ class TricksController extends AbstractController
     /**
      * @Route("/{slug}", name="tricks_show",  methods={"GET","POST"})
      */
+
+    /* route d'affichage d'un trick */
     public function show(Tricks $trick ,CommentRepository $commentRepository, Request $request ): Response
     {
         $comment = new Comment();
@@ -195,6 +216,8 @@ class TricksController extends AbstractController
 
         $comment->getTrick($trickComment);
 
+        /* Vérification du contenu des commentaires */
+
         if ($form->isSubmitted() && $form->isValid()) {
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -205,6 +228,8 @@ class TricksController extends AbstractController
                 'slug' => $trick->getSlug(),
         ]);
         }
+
+        /* retourne a la vue show avec un nombre de commentaire */
 
         return $this->render('tricks/show.html.twig', [
             'comments' => $commentRepository->findBy(
@@ -221,11 +246,15 @@ class TricksController extends AbstractController
     /**
      * @Route("/{slug}/edit", name="tricks_edit", methods={"GET","POST"})
      */
+    /* Route de la modification d'un trick */
+
     public function edit(Request $request, Tricks $trick ,  FileUploader $fileUploader , TricksRepository $tricksRepository): Response
     {
 
         $slugify = new Slugify();
-        
+
+        /* remplacement des balises <br> pour garder les sauts de lignes à la modification */
+
         $trick->content = str_replace("<br />", "", $trick->getContent("content"));
 
         $form = $this->createForm(TricksType::class, $trick);
@@ -238,9 +267,13 @@ class TricksController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            /* vérification du nom unique a la modification */
+
             $name_unique = $tricksRepository->findBy(
                 ['title' => $form->get('title')->getData(),]
             );
+
+            /* si le nom est changé on le slug de nouveau */
 
             $slug = $slugify->slugify($form->get('title')->getData(), ['separator' => '-']);
 
@@ -347,6 +380,9 @@ class TricksController extends AbstractController
     /**
      * @Route("/tricks/deleteImage", name="tricks_delete_image", methods={"POST"})
      */
+
+    /* supression ajax d'une image */
+
     public function deleteImage(Request $request , ImageRepository $imagerepository): Response
     {
 
@@ -365,6 +401,8 @@ class TricksController extends AbstractController
     /**
      * @Route("/tricks/deleteVideo", name="tricks_delete_video", methods={"POST"})
      */
+    /* supression ajax d'une video */
+
     public function deleteVideo(Request $request , VideoRepository $videorepository): Response
     {
 
@@ -384,23 +422,30 @@ class TricksController extends AbstractController
     /**
      * @Route("/{id}", name="tricks_delete", methods={"DELETE"})
      */
+
+    /* supression d'un trick */
+
     public function delete(Request $request, Tricks $trick , FileUploader $fileUploader): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$trick->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+        if($trick->getUser() == $this->getUser()) {
+            if ($this->isCsrfTokenValid('delete'.$trick->getId(), $request->request->get('_token'))) {
+                $entityManager = $this->getDoctrine()->getManager();
 
-            $images =  $trick->getImages();
+                $images = $trick->getImages();
 
-            foreach ($images as $image) {
+                foreach ($images as $image) {
 
-                $image->getId();
+                    $image->getId();
 
-                $fileUploader->removeUpload($image);
+                    /* à la supression du trick on supprime ces images du dossier upload */
 
+                    $fileUploader->removeUpload($image);
+
+                }
+
+                $entityManager->remove($trick);
+                $entityManager->flush();
             }
-
-            $entityManager->remove($trick);
-            $entityManager->flush();
         }
         $this->addFlash('warning', 'This name trick already exists');
 

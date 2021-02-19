@@ -53,7 +53,7 @@ $( document ).ready(function(){
                 divCard.className = "card";
 
                 let divHref = document.createElement("a");
-                divHref.setAttribute("href", "http://p6.sxnt8135.odns.fr/P6/public/index.php/"+data[i].slug+"");
+                divHref.setAttribute("href", "/P6/public/index.php/"+data[i].slug+"");
 
                 let divBody = document.createElement("div");
                 divBody.className = "card-body";
@@ -64,7 +64,7 @@ $( document ).ready(function(){
 
                 let divImage = document.createElement("img");
                 divImage.className = "card-img-top";
-                divImage.setAttribute("src",  "http://p6.sxnt8135.odns.fr/P6/public/uploads/images/"+data[i].image+"");
+                divImage.setAttribute("src",  "/P6/public/uploads/images/"+data[i].image+"");
 
 
              //si l'utilisateur est connecté

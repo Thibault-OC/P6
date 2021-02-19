@@ -36,6 +36,7 @@ class TricksAjaxController extends AbstractController
     /**
      * @Route("delete/trick", name="tricks_delete_ajax",  methods={"GET","POST"})
      */
+    /*Route supression d'un trick avec ajax*/
     public function deleteAjax(Request $request , TricksRepository $tricksRepository , FileUploader $fileUploader): Response
     {
 
@@ -43,6 +44,7 @@ class TricksAjaxController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $evenement = $tricksRepository->find($id);
 
+        /* vérification avant supression l'utilisateur doit etre l'autre du trick */
 
         if($evenement->getUser($id) == $this->getUser()){
 
@@ -89,6 +91,8 @@ class TricksAjaxController extends AbstractController
      * @Route("/tricks/editImage/{id}", name="tricks_edit_images",  methods={"GET","POST"})
      */
 
+    /* route modification d'un image avec ajax */
+
     public function editImage(Request $request ,Tricks $trick ,ImageRepository $imagerepository , FileUploader $fileUploader): Response
     {
 
@@ -109,8 +113,6 @@ class TricksAjaxController extends AbstractController
 
 
         if(!is_null($file)) {
-
-
 
             $file = $fileUploader->upload($file);
 
@@ -137,6 +139,7 @@ class TricksAjaxController extends AbstractController
     /**
      * @Route("/tricks/editVideo/{id}", name="tricks_edit_videos",  methods={"GET","POST"})
      */
+    /* Route modification d'une video avec ajax */
 
     public function editVideo(Request $request ,Tricks $trick ,VideoRepository $videorepository ): Response
     {
@@ -181,12 +184,16 @@ class TricksAjaxController extends AbstractController
      * @Route("/{id}/more", name="more_comments" , methods={"GET","POST"})
      */
 
+    /* Route pagination des commentaire d'un trick avec ajax*/
+
     public function loadMore(Tricks $trick, CommentRepository $commentRepository, Request $request):JsonResponse
     {
 
         $datas = [];
         $depart = (int)$request->get('nbComment');
+        /* pagination 5 par 5 des commentaires */
         $nbEnplus = 5;
+
 
         //Pour tester dans des conditions Web
         //sleep(5);
@@ -215,12 +222,15 @@ class TricksAjaxController extends AbstractController
      * @Route("/tricks/moretricks", name="more_tricks" , methods={"GET","POST"})
      */
 
+    /* Route pagination des tricks avec ajax*/
+
     public function moreTricks( TricksRepository $tricksRepository, Request $request):JsonResponse
     {
 
         $datas = [];
         $depart = (int)$request->get('nbTricks');
         $user = $this->getUser();
+        /* pagination 5 par 5 des tricks */
         $nbEnplus = 10;
 
 
