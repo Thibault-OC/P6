@@ -3,7 +3,7 @@
     <ul>
         <li>Symfony : 5.1.11</li>
         <li>PHP : 7.3.23</li>
-        <li>Jquery : 3.3.0</li>
+        <li>Jquery : 3.3.0</li> 
     </ul>
 
 <h2>Codacy</h2>
