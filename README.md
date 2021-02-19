@@ -13,22 +13,22 @@
     <ul>
         <li>Utiliser la ligne de commande git  <code> git clone https://github.com/Thibault-OC/P6.git</code> </li>
         <li>Déplacez-vous dans le dossier du projet avec la commande <code> cd P6</code> </li>
-        <li>Pour une utilisation optimal du projet installé composer <code> composer install </code></li>
+        <li>Pour une utilisation optimale du projet installé composer <code> composer install </code></li>
     </ul>
 <h3>Modifier le fichier .env :</h3>
     <ul>
         <li>Ajouter les identifiants et mots de passe de la base de donnée
             <code>DATABASE_URL="mysql://[utilisateur]:[mot de passe]@127.0.0.1:3306/[Nom de la base de données]?serverVersion=5.7"</code>
         </li>
-        <li>Comfiguer le smtp du serveur pour l'envoi de mail<br>
+        <li>Comfigurer le smtp du serveur pour l'envoi de mail<br>
              <code>MAILER_DSN=gmail://[utilisateur]:[mot de passe]@smtp.gmail.com</code>
         </li>
     </ul>
     
 <h3>création base de données</h3>    
     <ul>
-        <li>Création de la base de donnée <code>php bin/console doctrine:database:create</code></li>
-        <li>Création des tables de la base de donnée <code>php bin/console doctrine:migrations:migrate</code></li>
+        <li>Création de la base de données <code>php bin/console doctrine:database:create</code></li>
+        <li>Création des tables de la base de données <code>php bin/console doctrine:migrations:migrate</code></li>
         <li>Insertion des données de test <code>php bin/console doctrine:fixtures:load</code></li>
     </ul>
 
