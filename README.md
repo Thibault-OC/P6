@@ -28,7 +28,12 @@
 <h3>création base de données</h3>    
     <ul>
         <li>Création de la base de donnée <code>php bin/console doctrine:database:create</code></li>
-        <li>Création du fichier de migration <code>php bin/console make:migration</code></li>
         <li>Création des tables de la base de donnée <code>php bin/console doctrine:migrations:migrate</code></li>
+        <li>Insertion des données de test <code>php bin/console doctrine:fixtures:load</code></li>
     </ul>
 
+<h3>Identifiants test d'un utilisateur</h3>   
+    <ul>
+        <li>Email : admin@gmail.com</li>
+        <li>Mot de passe : password</li>
+    </ul> 
