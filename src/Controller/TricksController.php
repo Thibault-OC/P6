@@ -80,6 +80,8 @@ class TricksController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $trick->setUser($this->getUser());
+
             $slug = $slugify->slugify($form->get('title')->getData(), ['separator' => '-']);
 
             $trick->setSlug($slug);

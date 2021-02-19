@@ -44,23 +44,43 @@ class TricksAjaxController extends AbstractController
         $evenement = $tricksRepository->find($id);
 
 
+        if($evenement->getUser($id) == $this->getUser()){
 
-        $images =  $evenement->getImages();
+            $images =  $evenement->getImages();
 
-        foreach ($images as $image) {
+            foreach ($images as $image) {
 
-            $image->getId();
+                $image->getId();
 
-            $fileUploader->removeUpload($image);
+                $fileUploader->removeUpload($image);
 
+            }
+
+            $em->remove($evenement);
+            $em->flush();
+
+            $message="Trick has been deleted";
+            $alert="alert-success";
+
+            return new JsonResponse(array(
+                'id' => $id,
+                'message' => $message,
+                'alert' => $alert,
+            ));
+        }
+        else{
+
+            $message="you are not the creator you cannot deleted";
+            $alert="alert-warning";
+            $id=0;
+
+            return new JsonResponse(array(
+                'id' => $id,
+                'message' => $message,
+                'alert' => $alert,
+            ));
         }
 
-        $em->remove($evenement);
-        $em->flush();
-
-
-
-        return new JsonResponse($id);
 
     }
 
